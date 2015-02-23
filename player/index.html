@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Ого, ещё и клип есть?</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+</head>
+<body>
+  <div id="yt-player">
+    You need Flash player 8+ and JavaScript enabled to view this video.
+  </div>
+
+
+  <script type="text/javascript">
+    var params = { allowScriptAccess: 'always' };
+    var attrs = { id: 'yt-player' }
+    swfobject.embedSWF("https://www.youtube.com/apiplayer?enablejsapi=1&version=3",
+                       "yt-player", "425", "356", "8", null, null, params, atts);
+
+    function onYoutubePlayerReady(playerId) {
+      window.ytPlayer = document.getElementById("yt-player");
+    }
+  </script>
+</body>
+</html>
