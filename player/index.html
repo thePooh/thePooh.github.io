@@ -14,7 +14,7 @@
     var params = { allowScriptAccess: 'always' };
     var attrs = { id: 'yt-player' }
     swfobject.embedSWF("https://www.youtube.com/apiplayer?enablejsapi=1&version=3",
-                       "yt-player", "425", "356", "8", null, null, params, atts);
+                       "yt-player", "425", "356", "8", null, null, params, attrs);
 
     function onYoutubePlayerReady(playerId) {
       window.ytPlayer = document.getElementById("yt-player");
