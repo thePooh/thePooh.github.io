@@ -29,7 +29,7 @@
       VK.init({
         apiId: "4797696"
       });
-      VK.Auth.getLoginStatus(function(response)) {
+      VK.Auth.getLoginStatus(function(response) {
         window.vk_response = response;
         if (response.session) {
           console.log("User logged in");
