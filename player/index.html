@@ -58,7 +58,7 @@
         }
       });
 
-      #("#vk-login").click(function(e) {
+      $("#vk-login").click(function(e) {
         VK.Auth.login(function(response) {
           if (response.session) {
             VMP.fetchSongList();
