@@ -22,7 +22,32 @@
   <h3>Enter search query and press Enter</h3>
   <input type="text" id="search-query"/>
 
+  <div class="where_magic_happens">
+    <a href="#" id="vk-login">Войти Вконтакте</a>
+  </div>
+
   <script type="text/javascript">
+    VMP = {
+      setPlayer: function(player) {
+        this.ytPlayer = player;
+      },
+      playVideoByRequest: function(query) {
+        var request, player = this.ytPlayer;
+
+        request = gapi.client.youtube.search.list({q: query, part: "id", maxResults: 1, type: "video"});
+        request.execute(function(response) {
+          var videoId = response.result.items[0].id.videoId;
+          player.loadVideoById(videoId);
+        });
+      },
+      fetchSongList: function() {
+        var _this = this;
+        VK.Api.call('audio.get', {}, function(response) {
+          _this.songs = response;
+        });
+      }
+    };
+
     $(document).ready(function() {
       VK.init({
         apiId: "4797696"
@@ -33,6 +58,15 @@
         }
       });
 
+      #("#vk-login").click(function(e) {
+        VK.Auth.login(function(response) {
+          if (response.session) {
+            VMP.fetchSongList();
+            $('.where_magic_happens').val(VMP.songs);
+          }
+        }, 8);
+      });
+
       var params = { allowScriptAccess: "always" };
       var attrs = { id: "yt-player" };
       swfobject.embedSWF("https://www.youtube.com/v/ktvTqknDobU?enablejsapi=1&version=3&controls=0&autoplay=1&fs=1&showinfo=0&modestbranding=1&playerapiid=yt-player",
@@ -41,22 +75,14 @@
       $("#search-query").keypress(function(e) {
         if ((e.keyCode || e.which) == 13) {
           var input = $(e.target);
-          playYoutubeVideo(input.val());
+          VMP.playVideoByRequest(input.val());
           input.val("");
         }
-      })
+      });
     });
 
     function onYouTubePlayerReady(playerId) {
-      window.ytPlayer = document.getElementById("yt-player");
-    }
-
-    function playYoutubeVideo(query) {
-      request = gapi.client.youtube.search.list({q: query, part: 'id', maxResults: 1, type: 'video'})
-      request.execute(function(response) {
-        videoId = response.result.items[0].id.videoId;
-        window.ytPlayer.loadVideoById(videoId);
-      });
+      VMP.setPlayer(document.getElementById("yt-player"));
     }
   </script>
 </body>
