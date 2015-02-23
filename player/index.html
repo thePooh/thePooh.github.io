@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Ого, ещё и клип есть?</title>
   <script src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+  <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
 </head>
 <body>
   <div id="yt-player">
@@ -13,7 +14,7 @@
   <script type="text/javascript">
     var params = { allowScriptAccess: 'always' };
     var attrs = { id: 'yt-player' }
-    swfobject.embedSWF("https://www.youtube.com/apiplayer?enablejsapi=1&version=3",
+    swfobject.embedSWF("https://www.youtube.com/v/ktvTqknDobU?enablejsapi=1&version=3&controls=0&autoplay=1&fs=1&showinfo=0&modestbranding=1&playerapiid=yt-player",
                        "yt-player", "425", "356", "8", null, null, params, attrs);
 
     function onYoutubePlayerReady(playerId) {
