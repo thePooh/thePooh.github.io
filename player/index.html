@@ -30,6 +30,7 @@
     VMP = {
       setPlayer: function(player) {
         this.ytPlayer = player;
+        this.ytPlayer.addEventListener("onStateChange", "VMP.playerStateChanged");
       },
       playVideoByRequest: function(query) {
         var request, player = this.ytPlayer;
@@ -43,8 +44,17 @@
       fetchSongList: function() {
         var _this = this;
         VK.Api.call('audio.get', {}, function(response) {
-          _this.songs = response;
+          _this.songs = response.response;
         });
+      },
+      playSong: function(index) {
+        var song = this.songs[index];
+        this.playVideoByRequest(song.artist + ' ' + song.title);
+      },
+      playerStateChanged: function(state) {
+        if (state == 0) { // playback stopped
+          this.playSong(Math.floor(Math.random()*this.songs.length));
+        }
       }
     };
 
@@ -62,6 +72,7 @@
         VK.Auth.login(function(response) {
           if (response.session) {
             VMP.fetchSongList();
+            VMP.playerStateChanged(0);
             $('.where_magic_happens').val(VMP.songs);
           }
         }, 8);
