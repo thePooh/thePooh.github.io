@@ -40,9 +40,9 @@ VMP.factory('SongService', function() {
       }
       return this.currentSong;
     },
-    isShuffle: function() { return shuffle; },
-    getNextSong: function() { return nextSong; },
-    getCurrentSong: function() { return currentSong; }
+    isShuffle: function() { return this.shuffle; },
+    getNextSong: function() { return this.nextSong; },
+    getCurrentSong: function() { return this.currentSong; }
   };
 });
 
