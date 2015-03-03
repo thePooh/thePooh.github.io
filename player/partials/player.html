@@ -7,6 +7,14 @@
     </div>
 
     <div class="col-md-5">
+      <div class="container" ng-if="isRandom">
+        <p>Текущая песня:</p>
+        <p class="lead">{{currentSong.artist}} - {{currentSong.title}}</p>
+        <p>Следующая песня:</p>
+        <p class="lead">{{nextSong.artist}} - {{nextSong.title}}</p>
+        <button class="btn btn-link btn-sm" ng-click="changeNextSong()">Хочу другую!</button>
+      </div>
+
       <button class="btn btn-info" ng-click="fullscreen()">На весь экран</button>
       <button class="btn btn-primary" ng-click="next()">Следующая песня</button>
     </div>

@@ -23,10 +23,22 @@ VMP.factory('SongService', function() {
       VK.Api.call('audio.get', {}, function(response) {
         _this.songs = response.response;
         _this.isRandom = true;
+        _this.currentSong = _this.randomSong();
+        _this.nextSong = _this.randomSong();
       });
     },
-    getNextSong: function() {
+    randomSong: function() {
       return this.songs[Math.floor(Math.random()*this.songs.length)];
+    },
+    changeNextSong: function() {
+      this.nextSong = this.randomSong();
+    },
+    getNextSong: function() {
+      if (this.isRandom) {
+        this.currentSong = this.nextSong;
+        this.nextSong = this.randomSong();
+      }
+      return this.currentSong;
     }
   };
 });
@@ -94,4 +106,10 @@ VMP.controller('ContentController', ['$scope', 'SongService', 'ytPlayer', functi
   $scope.shuffleToggle = function() {
     SongService.shuffle = !SongService.shuffle;
   };
+  $scope.changeNextSong = function() {
+    SongService.changeNextSong();
+  }
+  $scope.isRandom = SongService.isRandom;
+  $scope.currentSong = SongService.currentSong;
+  $scope.nextSong = SongService.nextSong;
 }]);
