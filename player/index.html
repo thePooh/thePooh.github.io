@@ -32,7 +32,6 @@
     function onYouTubePlayerReady(playerId) {
       var player = angular.element(document.body).injector().get('ytPlayer');
       player.setPlayer(document.getElementById(playerId));
-      player.playNextSong();
     }
   </script>
 </body>

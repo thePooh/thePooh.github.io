@@ -76,6 +76,7 @@ VMP.factory('ytPlayer', ['SongService', function(SongService) {
       this.playVideoByRequest(song.artist + ' ' + song.title);
     },
     playerStateChanged: function(state) {
+      console.log(state);
       if (state == 0) {
         this.playNextSong();
       }
