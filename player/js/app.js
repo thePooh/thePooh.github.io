@@ -60,7 +60,7 @@ VMP.controller('GreetingController', ['$scope', '$location', function($scope, $l
   $scope.login = function() {
     VK.Auth.login(function(response) {
       if (response.session) {
-        $location('/player');
+        $location.path('/player');
       }
     })
   };
