@@ -110,5 +110,4 @@ VMP.controller('ContentController', ['$scope', 'SongService', 'ytPlayer', functi
     SongService.changeNextSong();
   };
   $scope.songService = SongService;
-  $scope.$digest();
 }]);

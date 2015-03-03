@@ -30,7 +30,9 @@
 
   <script type="text/javascript">
     function onYouTubePlayerReady(playerId) {
-      angular.element(document.body).injector().get('ytPlayer').setPlayer(document.getElementById(playerId));
+      var player = angular.element(document.body).injector().get('ytPlayer');
+      player.setPlayer(document.getElementById(playerId));
+      player.playNextSong();
     }
   </script>
 </body>
