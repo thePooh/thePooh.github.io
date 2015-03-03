@@ -7,14 +7,14 @@
     </div>
 
     <div class="col-md-5">
-    <p>{{isShuffle()}}</p>
-    <p>{{currentSong}}</p>
-    <p>{{nextSong}}</p>
-      <div class="container" ng-if="isShuffle()">
+    <p>{{songService.isShuffle()}}</p>
+    <p>{{songService.currentSong}}</p>
+    <p>{{songService.nextSong}}</p>
+      <div class="container" ng-if="songService.shuffle">
         <p>Текущая песня:</p>
-        <p class="lead">{{currentSong.artist}} - {{currentSong.title}}</p>
+        <p class="lead">{{songService.currentSong.artist}} - {{songService.currentSong.title}}</p>
         <p>Следующая песня:</p>
-        <p class="lead">{{nextSong.artist}} - {{nextSong.title}}</p>
+        <p class="lead">{{songService.nextSong.artist}} - {{songService.nextSong.title}}</p>
         <button class="btn btn-link btn-sm" ng-click="changeNextSong()">Хочу другую!</button>
       </div>
 

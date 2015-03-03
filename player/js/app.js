@@ -108,8 +108,6 @@ VMP.controller('ContentController', ['$scope', 'SongService', 'ytPlayer', functi
   };
   $scope.changeNextSong = function() {
     SongService.changeNextSong();
-  }
-  $scope.isShuffle = function() { return SongService.shuffle };
-  $scope.currentSong = SongService.getCurrentSong;
-  $scope.nextSong = SongService.getNextSong;
+  };
+  $scope.songService = SongService;
 }]);
