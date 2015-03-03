@@ -87,6 +87,7 @@
       });
 
       $("#vk-login").click(function(e) {
+        console.log('Logging in');
         VK.Auth.login(function(response) {
           if (response.session) {
             VMP.fetchSongList();
