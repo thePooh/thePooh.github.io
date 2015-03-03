@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="clip-player">
+<html>
 <head>
   <meta charset="UTF-8">
   <title>Ого, ещё и клип есть?</title>
@@ -95,6 +95,7 @@
             swfobject.embedSWF("https://www.youtube.com/apiplayer?enablejsapi=1&version=3&controls=0&autoplay=1&fs=1&showinfo=0&modestbranding=1&playerapiid=yt-player", "yt-player", "100%", "100%", "8", null, null, params, attrs);
           }
         }, 8);
+        e.preventDefault();
       });
 
       $("#search-query").keypress(function(e) {
