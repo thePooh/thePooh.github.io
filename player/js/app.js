@@ -17,22 +17,33 @@ VMP.config(['$routeProvider',
   }]);
 
 VMP.factory('SongService', function() {
-  var SongService = {};
-  VK.Api.call('audio.get', {}, function(response) {
-    SongService.songs = response.response;
-    SongService.isRandom = true;
-  });
-  SongService.getNextSong = function() {
-    return this.songs[Math.floor(Math.random()*this.songs.length)];
+  return {
+    fetchSongs: function() {
+      VK.Api.call('audio.get', {}, function(response) {
+        this.songs = response.response;
+        this.isRandom = true;
+      })
+    },
+    getNextSong = function() {
+      return this.songs[Math.floor(Math.random()*this.songs.length)];
+    }
   };
-  return SongService;
 });
 
 VMP.factory('ytPlayer', ['SongService', function(SongService) {
   return {
     setPlayer: function(player) {
       this.flash = player;
-      this.flash.addEventListener("onStateChange", "angular.injector(['ng', 'VMP']).get('ytPlayer').playerStateChanged");
+      this.flash.addEventListener("onStateChange", "angular.injector(['ng', 'vmpApp']).get('ytPlayer').playerStateChanged");
+    },
+    requestFullScreen: function() {
+      if (this.flash.webkitRequestFullScreen) {
+        this.flash.webkitRequestFullScreen();
+      } else if (this.flash.requestFullScreen) {
+        this.flash.requestFullScreen();
+      } else if (this.flash.mozRequestFullScreen) {
+        this.flash.mozRequestFullScreen();
+      }
     },
     playVideoByRequest: function(query) {
       var request, player = this.flash;
@@ -55,11 +66,12 @@ VMP.factory('ytPlayer', ['SongService', function(SongService) {
   };
 }]);
 
-VMP.controller('GreetingController', ['$scope', '$location', function($scope, $location) {
+VMP.controller('GreetingController', ['$scope', '$location', 'SongService', function($scope, $location, SongService) {
   VK.init({ apiId: "4797696" });
   $scope.login = function() {
     VK.Auth.login(function(response) {
       if (response.session) {
+        SongService.fetchSongs();
         $location.path('/player');
       }
     }, 8);
@@ -72,6 +84,9 @@ VMP.controller('ContentController', ['$scope', 'SongService', 'ytPlayer', functi
   swfobject.embedSWF("https://www.youtube.com/apiplayer?enablejsapi=1&version=3&controls=0&autoplay=1&fs=1&showinfo=0&modestbranding=1&playerapiid=yt-player", "yt-player", "100%", "100%", "8", null, null, params, attrs);
   $scope.next = function() {
     ytPlayer.playNextSong();
+  };
+  $scope.fullscreen = function() {
+    ytPlayer.requestFullScreen();
   };
   $scope.shuffleToggle = function() {
     SongService.shuffle = !SongService.shuffle;

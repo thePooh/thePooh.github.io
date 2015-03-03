@@ -10,8 +10,7 @@
       gapi.client.load("youtube", "v3");
     }
     function onYouTubePlayerReady(playerId) {
-      console.log(playerId);
-      angular.injector(['ng', 'VMP']).get('ytPlayer').setPlayer(document.getElementById("yt-player"));
+      angular.injector(['ng', 'vmpApp']).get('ytPlayer').setPlayer(document.getElementById(playerId));
     }
   </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
