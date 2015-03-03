@@ -22,7 +22,7 @@ VMP.factory('SongService', function() {
       var _this = this;
       VK.Api.call('audio.get', {}, function(response) {
         _this.songs = response.response;
-        _this.isRandom = true;
+        _this.shuffle = true;
         _this.currentSong = _this.randomSong();
         _this.nextSong = _this.randomSong();
       });
@@ -33,13 +33,16 @@ VMP.factory('SongService', function() {
     changeNextSong: function() {
       this.nextSong = this.randomSong();
     },
-    getNextSong: function() {
-      if (this.isRandom) {
+    playNextSong: function() {
+      if (this.shuffle) {
         this.currentSong = this.nextSong;
         this.nextSong = this.randomSong();
       }
       return this.currentSong;
-    }
+    },
+    isShuffle: function() { return shuffle; },
+    getNextSong: function() { return nextSong; },
+    getCurrentSong: function() { return currentSong; }
   };
 });
 
@@ -68,7 +71,7 @@ VMP.factory('ytPlayer', ['SongService', function(SongService) {
       });
     },
     playNextSong: function() {
-      song = SongService.getNextSong();
+      song = SongService.playNextSong();
       this.playVideoByRequest(song.artist + ' ' + song.title);
     },
     playerStateChanged: function(state) {
@@ -103,13 +106,10 @@ VMP.controller('ContentController', ['$scope', 'SongService', 'ytPlayer', functi
   $scope.fullscreen = function() {
     ytPlayer.requestFullScreen();
   };
-  $scope.shuffleToggle = function() {
-    SongService.shuffle = !SongService.shuffle;
-  };
   $scope.changeNextSong = function() {
     SongService.changeNextSong();
   }
-  $scope.isRandom = SongService.isRandom;
-  $scope.currentSong = SongService.currentSong;
-  $scope.nextSong = SongService.nextSong;
+  $scope.isShuffle = SongService.isShuffle;
+  $scope.currentSong = SongService.getCurrentSong;
+  $scope.nextSong = SongService.getNextSong;
 }]);
