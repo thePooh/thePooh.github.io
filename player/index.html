@@ -30,8 +30,7 @@
 
   <script type="text/javascript">
     function onYouTubePlayerReady(playerId) {
-      console.log('onYouTubePlayerReady called')
-      angular.injector(['ng', 'vmpApp']).get('ytPlayer').setPlayer(document.getElementById(playerId));
+      angular.element(document.body).injector().get('ytPlayer').setPlayer(document.getElementById(playerId));
     }
   </script>
 </body>

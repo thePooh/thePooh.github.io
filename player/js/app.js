@@ -35,7 +35,7 @@ VMP.factory('ytPlayer', ['SongService', function(SongService) {
   return {
     setPlayer: function(player) {
       this.flash = player;
-      this.flash.addEventListener("onStateChange", "angular.injector(['ng', 'vmpApp']).get('ytPlayer').playerStateChanged");
+      this.flash.addEventListener("onStateChange", "angular.element(document.body).injector().get('ytPlayer').playerStateChanged");
     },
     requestFullScreen: function() {
       if (this.flash.webkitRequestFullScreen) {
@@ -77,6 +77,7 @@ VMP.controller('GreetingController', ['$scope', '$location', 'SongService', func
         console.log('okay, go')
         SongService.fetchSongs();
         $location.path('/player');
+        $scope.apply();
       }
     }, 8);
   };
