@@ -7,9 +7,6 @@
     </div>
 
     <div class="col-md-5">
-    <p>{{songService.isShuffle()}}</p>
-    <p>{{songService.currentSong}}</p>
-    <p>{{songService.nextSong}}</p>
       <div class="container" ng-if="songService.shuffle">
         <p>Текущая песня:</p>
         <p class="lead">{{songService.currentSong.artist}} - {{songService.currentSong.title}}</p>

@@ -100,6 +100,7 @@ VMP.controller('ContentController', ['$scope', 'SongService', 'ytPlayer', functi
   var params = { allowScriptAccess: "always", allowFullScreen: true };
   var attrs = { id: "yt-player" };
   swfobject.embedSWF("https://www.youtube.com/apiplayer?enablejsapi=1&version=3&controls=0&autoplay=1&fs=1&showinfo=0&modestbranding=1&playerapiid=yt-player", "yt-player", "100%", "100%", "8", null, null, params, attrs);
+  $scope.digest();
   $scope.next = function() {
     ytPlayer.playNextSong();
   };
