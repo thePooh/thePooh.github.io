@@ -16,6 +16,18 @@ VMP.config(['$routeProvider',
       })
   }]);
 
+VMP.factory('SongService', function() {
+  var SongService = {};
+  VK.Api.call('audio.get', {}, function(response) {
+    SongService.songs = response.response;
+    SongService.isRandom = true;
+  });
+  SongService.getNextSong = function() {
+    return this.songs[Math.floor(Math.random()*this.songs.length)];
+  };
+  return SongService;
+});
+
 VMP.factory('ytPlayer', ['SongService', function(SongService) {
   return {
     setPlayer: function(player) {
@@ -43,18 +55,6 @@ VMP.factory('ytPlayer', ['SongService', function(SongService) {
   };
 }]);
 
-VMP.factory('SongService', function(ytPlayer) {
-  var SongService = {};
-  VK.Api.call('audio.get', {}, function(response) {
-    SongService.songs = response.response;
-    SongService.isRandom = true;
-  });
-  SongService.getNextSong = function() {
-    return this.songs[Math.floor(Math.random()*this.songs.length)];
-  };
-  return SongService;
-});
-
 VMP.controller('GreetingController', ['$scope', '$location', function($scope, $location) {
   VK.init({ apiId: "4797696" });
   $scope.login = function() {
@@ -62,7 +62,7 @@ VMP.controller('GreetingController', ['$scope', '$location', function($scope, $l
       if (response.session) {
         $location.path('/player');
       }
-    })
+    }, 8);
   };
 }]);
 
