@@ -19,6 +19,7 @@ VMP.config(['$routeProvider',
 VMP.factory('SongService', function() {
   return {
     fetchSongs: function() {
+      console.log('trying to fetch songs')
       VK.Api.call('audio.get', {}, function(response) {
         this.songs = response.response;
         this.isRandom = true;
@@ -69,8 +70,11 @@ VMP.factory('ytPlayer', ['SongService', function(SongService) {
 VMP.controller('GreetingController', ['$scope', '$location', 'SongService', function($scope, $location, SongService) {
   VK.init({ apiId: "4797696" });
   $scope.login = function() {
+    console.log('login inititated')
     VK.Auth.login(function(response) {
+      console.log(response)
       if (response.session) {
+        console.log('okay, go')
         SongService.fetchSongs();
         $location.path('/player');
       }
@@ -91,5 +95,4 @@ VMP.controller('ContentController', ['$scope', 'SongService', 'ytPlayer', functi
   $scope.shuffleToggle = function() {
     SongService.shuffle = !SongService.shuffle;
   };
-
 }]);

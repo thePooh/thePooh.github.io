@@ -9,9 +9,6 @@
       gapi.client.setApiKey("AIzaSyCWU3wPW4bt9bIqQWe4ls4eKyy7VKsgs3c");
       gapi.client.load("youtube", "v3");
     }
-    function onYouTubePlayerReady(playerId) {
-      angular.injector(['ng', 'vmpApp']).get('ytPlayer').setPlayer(document.getElementById(playerId));
-    }
   </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
@@ -30,5 +27,12 @@
   </nav>
 
   <div ng-view>
+
+  <script type="text/javascript">
+    function onYouTubePlayerReady(playerId) {
+      console.log('onYouTubePlayerReady called')
+      angular.injector(['ng', 'vmpApp']).get('ytPlayer').setPlayer(document.getElementById(playerId));
+    }
+  </script>
 </body>
 </html>
