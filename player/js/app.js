@@ -24,7 +24,7 @@ VMP.factory('SongService', function() {
         this.isRandom = true;
       })
     },
-    getNextSong = function() {
+    getNextSong: function() {
       return this.songs[Math.floor(Math.random()*this.songs.length)];
     }
   };
