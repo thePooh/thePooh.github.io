@@ -30,7 +30,7 @@
 
   <script type="text/javascript">
     function getPlayerService() {
-      return angular.element('div [ng-controller]').injector().get('ytPlayer');
+      return angular.element('#where-magic-happens').injector().get('ytPlayer');
     }
 
     function onYouTubePlayerReady(playerId) {
