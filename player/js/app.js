@@ -43,7 +43,7 @@ VMP.factory('SongService', function() {
       this.offset = Math.floor(i/this.limit)*this.limit;
     },
     toggleShuffle: function() {
-      this.shuffle != this.shuffle;
+      this.shuffle = !this.shuffle;
       this.setOffset();
     },
     playNextSong: function() {
@@ -151,7 +151,7 @@ VMP.controller('ContentController', ['$scope', 'SongService', 'ytPlayer', functi
     SongService.changeNextSong();
   };
   $scope.playSong = function(aid) { SongService.queued = aid; this.next() };
-  $scope.toggleShuffle = function() { SongService.toggleShuffle() }
+  $scope.toggleShuffle = function() { SongService.toggleShuffle(); }
   $scope.songService = SongService;
 }]);
 
