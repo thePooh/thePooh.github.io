@@ -7,28 +7,41 @@
     </div>
 
     <div class="col-md-5">
-      <button class="btn btn-warning" ng-click="toggleShuffle()">
-        <div ng-if="songService.shuffle">Перестать мешать</div>
-        <div ng-if="!songService.shuffle">Перемешать</div>
-      </button>
-      <div class="container" ng-if="songService.shuffle">
-        <p>Текущая песня:</p>
-        <p class="lead">{{songService.currentSong.artist}} - {{songService.currentSong.title}}</p>
-        <p>Следующая песня:</p>
-        <p class="lead">{{songService.nextSong.artist}} - {{songService.nextSong.title}}</p>
-        <button class="btn btn-link btn-sm" ng-click="changeNextSong()">Хочу другую!</button>
+      <div class="row">
+        <div class="col-md-12">
+          <button class="btn btn-warning" ng-click="toggleShuffle()">
+            <div ng-if="songService.shuffle">Перестать мешать</div>
+            <div ng-if="!songService.shuffle">Перемешать</div>
+          </button>
+        </div>
       </div>
 
-      <div class="container" ng-if="!songService.shuffle">
-        <ul class="list-group">
-          <li class="list-group-item" ng-repeat="song in songService.songsPage()">{{song.artist}} - {{song.title}}</li>
-        </ul>
-        <button class="btn btn-link btn-sm" ng-click="songService.prevPage()" ng-if="songService.hasPrevPage()">Следующая страница</button>
-        <button class="btn btn-link btn-sm" ng-click="songService.nextPage()" ng-if="songService.hasNextPage()">Следующая страница</button>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="container" ng-if="songService.shuffle">
+            <p>Текущая песня:</p>
+            <p class="lead">{{songService.currentSong.artist}} - {{songService.currentSong.title}}</p>
+            <p>Следующая песня:</p>
+            <p class="lead">{{songService.nextSong.artist}} - {{songService.nextSong.title}}</p>
+            <button class="btn btn-link btn-sm" ng-click="changeNextSong()">Хочу другую!</button>
+          </div>
+
+          <div class="container" ng-if="!songService.shuffle">
+            <ul class="list-group">
+              <li class="list-group-item" ng-repeat="song in songService.songsPage()">{{song.artist}} - {{song.title}}</li>
+            </ul>
+            <button class="btn btn-link btn-sm" ng-click="songService.prevPage()" ng-if="songService.hasPrevPage()">Следующая страница</button>
+            <button class="btn btn-link btn-sm" ng-click="songService.nextPage()" ng-if="songService.hasNextPage()">Следующая страница</button>
+          </div>
+        </div>
       </div>
 
-      <button class="btn btn-info" ng-click="fullscreen()">На весь экран</button>
-      <button class="btn btn-primary" ng-click="next()">Следующая песня</button>
+      <div class="row">
+        <!-- <div class="col-md-12"> -->
+          <button class="btn btn-info col-md-4" ng-click="fullscreen()">На весь экран</button>
+          <button class="btn btn-primary col-md-4 col-md-offset-4" ng-click="next()">Следующая песня</button>
+        <!-- </div> -->
+      </div>
     </div>
   </div>
 </div>

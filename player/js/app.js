@@ -43,7 +43,7 @@ VMP.factory('SongService', function() {
         var i = this.songs.indexOf(this.currentSong);
         if (i < this.songs.length) {
           this.currentSong = this.songs[i+1];
-          if (i > offset+limit) { offset += limit; }
+          if (i > this.offset+this.limit) { this.offset += this.limit; }
         } else {
           this.currentSong = this.songs[0];
           offset = 0;
@@ -53,7 +53,7 @@ VMP.factory('SongService', function() {
     },
     hasNextPage: function() { return this.songs.length > this.offset + this.limit; },
     nextPage: function() { this.offset += this.limit; },
-    hasPrevPage: function() { this.offset > 0 },
+    hasPrevPage: function() { return this.offset > 0 },
     prevPage: function() { this.offset -= this.limit; },
     songsPage: function() { return this.songs.slice(this.offset, this.offset+this.limit); },
     isShuffle: function() { return this.shuffle; },
@@ -120,7 +120,7 @@ VMP.controller('GreetingController', ['$scope', '$rootScope', '$location', 'Song
 VMP.controller('ContentController', ['$scope', 'SongService', 'ytPlayer', function($scope, SongService, ytPlayer) {
   var params = { allowScriptAccess: "always", allowFullScreen: true };
   var attrs = { id: "yt-player" };
-  swfobject.embedSWF("https://www.youtube.com/v/ktvTqknDobU?enablejsapi=1&version=3&controls=0&autoplay=1&fs=1&showinfo=0&modestbranding=1&playerapiid=yt-player", "yt-player", "100%", "100%", "8", null, null, params, attrs);
+  swfobject.embedSWF("https://www.youtube.com/v/ktvTqknDobU?enablejsapi=1&version=3&controls=0&autoplay=1&fs=1&showinfo=0&modestbranding=1&playerapiid=yt-player", "yt-player", "100%", "650px", "8", null, null, params, attrs);
   $scope.next = function() {
     ytPlayer.playNextSong();
   };
