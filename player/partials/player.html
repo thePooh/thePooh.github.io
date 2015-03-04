@@ -16,31 +16,32 @@
         </div>
       </div>
 
-      <div class="container-fluid">
-        <div class="col-md-12">
-          <div ng-if="songService.shuffle">
-            <p>Текущая песня:</p>
-            <p class="lead">{{songService.currentSong.artist}} - {{songService.currentSong.title}}</p>
-            <p>Следующая песня:</p>
-            <p class="lead">{{songService.nextSong.artist}} - {{songService.nextSong.title}}</p>
-            <button class="btn btn-link btn-sm" ng-click="changeNextSong()">Хочу другую!</button>
-          </div>
+      <div class="container-fluid" style="height:580px;display:flex;align-items:center">
+        <div ng-if="songService.shuffle">
+          <p class="text-center">Текущая песня:</p>
+          <p class="lead text-center">{{songService.currentSong.artist}} - {{songService.currentSong.title}}</p>
+          <p class="text-center">Следующая песня:</p>
+          <p class="lead text-center">{{songService.nextSong.artist}} - {{songService.nextSong.title}}</p>
+          <button class="btn btn-link btn-sm" ng-click="changeNextSong()">Хочу другую!</button>
+        </div>
 
-          <div ng-if="!songService.shuffle">
+
+        <div ng-if="!songService.shuffle">
+          <div class="row">
             <ul class="list-group">
               <li class="list-group-item" ng-repeat="song in songService.songsPage()">{{song.artist}} - {{song.title}}</li>
             </ul>
-            <button class="btn btn-link btn-sm" ng-click="songService.prevPage()" ng-if="songService.hasPrevPage()">Следующая страница</button>
-            <button class="btn btn-link btn-sm" ng-click="songService.nextPage()" ng-if="songService.hasNextPage()">Следующая страница</button>
+          </div>
+          <div class="row">
+            <button class="btn btn-link btn-sm col-md-1" ng-click="songService.prevPage()" ng-if="songService.hasPrevPage()">Назад</button>
+            <button class="btn btn-link btn-sm col-md-1 col-md-offset-10" ng-click="songService.nextPage()" ng-if="songService.hasNextPage()">Вперёд</button>
           </div>
         </div>
       </div>
 
       <div class="row">
-        <!-- <div class="col-md-12"> -->
-          <button class="btn btn-info col-md-4 col-md-offset-1" ng-click="fullscreen()">На весь экран</button>
-          <button class="btn btn-primary col-md-4 col-md-offset-2" ng-click="next()">Следующая песня</button>
-        <!-- </div> -->
+        <button class="btn btn-info col-md-4 col-md-offset-1" ng-click="fullscreen()">На весь экран</button>
+        <button class="btn btn-primary col-md-4 col-md-offset-2" ng-click="next()">Следующая песня</button>
       </div>
     </div>
   </div>
