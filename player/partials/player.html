@@ -7,12 +7,24 @@
     </div>
 
     <div class="col-md-5">
+      <button class="btn btn-warning" ng-click="toggleShuffle()">
+        <div ng-if="songService.shuffle">Перестать мешать</div>
+        <div ng-if="!songService.shuffle">Перемешать</div>
+      </button>
       <div class="container" ng-if="songService.shuffle">
         <p>Текущая песня:</p>
         <p class="lead">{{songService.currentSong.artist}} - {{songService.currentSong.title}}</p>
         <p>Следующая песня:</p>
         <p class="lead">{{songService.nextSong.artist}} - {{songService.nextSong.title}}</p>
         <button class="btn btn-link btn-sm" ng-click="changeNextSong()">Хочу другую!</button>
+      </div>
+
+      <div class="container" ng-if="!songService.shuffle">
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="song in songService.songsPage()">{{song.artist}} - {{song.title}}</li>
+        </ul>
+        <button class="btn btn-link btn-sm" ng-click="songService.prevPage()" ng-if="songService.hasPrevPage()">Следующая страница</button>
+        <button class="btn btn-link btn-sm" ng-click="songService.nextPage()" ng-if="songService.hasNextPage()">Следующая страница</button>
       </div>
 
       <button class="btn btn-info" ng-click="fullscreen()">На весь экран</button>

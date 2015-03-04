@@ -25,6 +25,8 @@ VMP.factory('SongService', function() {
         _this.shuffle = true;
         _this.currentSong = _this.randomSong();
         _this.nextSong = _this.randomSong();
+        _this.offset = 0;
+        _this.limit = 10;
       });
     },
     randomSong: function() {
@@ -37,16 +39,30 @@ VMP.factory('SongService', function() {
       if (this.shuffle) {
         this.currentSong = this.nextSong;
         this.nextSong = this.randomSong();
+      } else {
+        var i = this.songs.indexOf(this.currentSong);
+        if (i < this.songs.length) {
+          this.currentSong = this.songs[i+1];
+          if (i > offset+limit) { offset += limit; }
+        } else {
+          this.currentSong = this.songs[0];
+          offset = 0;
+        }
       }
       return this.currentSong;
     },
+    hasNextPage: function() { return this.songs.length > this.offset + this.limit; },
+    nextPage: function() { this.offset += this.limit; },
+    hasPrevPage: function() { this.offset > 0 },
+    prevPage: function() { this.offset -= this.limit; },
+    songsPage: function() { return this.songs.slice(this.offset, this.offset+this.limit); },
     isShuffle: function() { return this.shuffle; },
     getNextSong: function() { return this.nextSong; },
     getCurrentSong: function() { return this.currentSong; }
   };
 });
 
-VMP.factory('ytPlayer', ['SongService', function(SongService) {
+VMP.factory('ytPlayer', ['SongService', '$scope', function(SongService, $scope) {
   return {
     setPlayer: function(player) {
       this.flash = player;
@@ -74,9 +90,11 @@ VMP.factory('ytPlayer', ['SongService', function(SongService) {
     playNextSong: function() {
       song = SongService.playNextSong();
       this.playVideoByRequest(song.artist + ' ' + song.title);
+      if (!$scope.$$phase) {
+        $scope.$digest();
+      }
     },
     playerStateChanged: function(state) {
-      console.log(state);
       if (state == 0) {
         this.playNextSong();
       }
@@ -111,5 +129,6 @@ VMP.controller('ContentController', ['$scope', 'SongService', 'ytPlayer', functi
   $scope.changeNextSong = function() {
     SongService.changeNextSong();
   };
+  $scope.toggleShuffle = function() { SongService.shuffle = !SongService.shuffle; }
   $scope.songService = SongService;
 }]);
