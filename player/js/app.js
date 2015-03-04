@@ -62,7 +62,8 @@ VMP.factory('SongService', function() {
   };
 });
 
-VMP.factory('ytPlayer', ['SongService', '$scope', function(SongService, $scope) {
+VMP.factory('ytPlayer', ['SongService', function(SongService) {
+  var scope = angular.element('div [ng-controller]');
   return {
     setPlayer: function(player) {
       this.flash = player;
@@ -90,8 +91,8 @@ VMP.factory('ytPlayer', ['SongService', '$scope', function(SongService, $scope) 
     playNextSong: function() {
       song = SongService.playNextSong();
       this.playVideoByRequest(song.artist + ' ' + song.title);
-      if (!$scope.$$phase) {
-        $scope.$digest();
+      if (!scope.$$phase) {
+        scope.$digest();
       }
     },
     playerStateChanged: function(state) {
