@@ -63,7 +63,7 @@ VMP.factory('SongService', function() {
 });
 
 VMP.factory('ytPlayer', ['SongService', function(SongService) {
-  var scope = angular.element('#where-magic-happens');
+  var scope = angular.element('#where-magic-happens').scope();
   return {
     setPlayer: function(player) {
       this.flash = player;
