@@ -66,7 +66,7 @@ VMP.factory('SongService', function() {
           } else {
             this.currentSong = this.songs[0];
           }
-          setOffset();
+          this.setOffset();
         }
       }
       return this.currentSong;
