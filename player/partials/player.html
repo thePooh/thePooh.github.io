@@ -7,29 +7,23 @@
     </div>
 
     <div class="col-md-5">
-      <div class="container-fluid">
-        <div class="col-md-12">
-          <button class="btn btn-warning" ng-click="toggleShuffle()">
-            <div ng-if="songService.shuffle">Перестать мешать</div>
-            <div ng-if="!songService.shuffle">Перемешать</div>
-          </button>
-        </div>
-      </div>
-
       <div style="height:580px;display:flex;align-items:center;width:450px;margin-left:auto;margin-right:auto">
         <div ng-if="songService.shuffle">
-          <p class="text-center">Текущая песня:</p>
+          <p class="text-center">Сейчас играет:</p>
           <p class="lead text-center">{{songService.currentSong.artist}} - {{songService.currentSong.title}}</p>
-          <p class="text-center">Следующая песня:</p>
+          <p class="text-center">Дальше будет:</p>
           <p class="lead text-center">{{songService.nextSong.artist}} - {{songService.nextSong.title}}</p>
-          <button class="btn btn-link btn-sm" ng-click="changeNextSong()">Хочу другую!</button>
+          <button class="btn btn-link btn-sm text-center" ng-click="changeNextSong()">Хочу другую!</button>
         </div>
 
 
         <div ng-if="!songService.shuffle">
           <div class="row">
             <ul class="list-group" style="width:450px;">
-              <li class="list-group-item" ng-repeat="song in songService.songsPage()">{{song.artist}} - {{song.title}}</li>
+              <li class="list-group-item" ng-repeat="song in songService.songsPage()">
+                <b ng-if="songService.currentSong.aid == song.aid">{{song.artist}} - {{song.title}}</b>
+                <a class="btn btn-link" ng-if="songService.currentSong.aid != song.aid" ng-click="playSong(song.aid)">{{song.artist}} - {{song.title}}</a>
+              </li>
             </ul>
           </div>
           <div class="row">
@@ -40,7 +34,10 @@
       </div>
 
       <div class="row">
-        <button class="btn btn-info col-md-4 col-md-offset-1" ng-click="fullscreen()">На весь экран</button>
+        <button class="btn btn-warning col-md-4" ng-click="toggleShuffle()">
+          <div ng-if="songService.shuffle">Перестать мешать</div>
+          <div ng-if="!songService.shuffle">Перемешать</div>
+        </button>
         <button class="btn btn-primary col-md-4 col-md-offset-2" ng-click="next()">Следующая песня</button>
       </div>
     </div>

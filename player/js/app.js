@@ -35,18 +35,38 @@ VMP.factory('SongService', function() {
     changeNextSong: function() {
       this.nextSong = this.randomSong();
     },
+    getCurrentIndex: function() {
+      return this.songs.indexOf(this.currentSong);
+    },
+    setOffset: function() {
+      var i = this.getCurrentIndex();
+      this.offset = Math.floor(i/this.limit)*this.limit;
+    },
+    toggleShuffle: function() {
+      this.shuffle != this.shuffle;
+      this.setOffset();
+    },
     playNextSong: function() {
       if (this.shuffle) {
         this.currentSong = this.nextSong;
         this.nextSong = this.randomSong();
       } else {
-        var i = this.songs.indexOf(this.currentSong);
-        if (i < this.songs.length) {
-          this.currentSong = this.songs[i+1];
-          if (i > this.offset+this.limit) { this.offset += this.limit; }
+        if (this.queued) {
+          for (var i=0; i<this.songs.length; i++) {
+            if (this.songs[i].aid == this.queued) {
+              this.currentSong = this.songs[i];
+              break;
+            }
+          }
+          this.queued = undefined;
         } else {
-          this.currentSong = this.songs[0];
-          offset = 0;
+          var i = this.getCurrentIndex();
+          if (i < this.songs.length) {
+            this.currentSong = this.songs[i+1];
+          } else {
+            this.currentSong = this.songs[0];
+          }
+          setOffset();
         }
       }
       return this.currentSong;
@@ -130,7 +150,8 @@ VMP.controller('ContentController', ['$scope', 'SongService', 'ytPlayer', functi
   $scope.changeNextSong = function() {
     SongService.changeNextSong();
   };
-  $scope.toggleShuffle = function() { SongService.shuffle = !SongService.shuffle; }
+  $scope.playSong = function(aid) { SongService.queued = aid; this.next() };
+  $scope.toggleShuffle = function() { SongService.toggleShuffle() }
   $scope.songService = SongService;
 }]);
 
