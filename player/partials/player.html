@@ -16,7 +16,7 @@
         </div>
       </div>
 
-      <div style="height:580px;display:flex;align-items:center;width:450px;margin-left:auto;margin-rigth:auto">
+      <div style="height:580px;display:flex;align-items:center;width:450px;margin-left:auto;margin-right:auto">
         <div ng-if="songService.shuffle">
           <p class="text-center">Текущая песня:</p>
           <p class="lead text-center">{{songService.currentSong.artist}} - {{songService.currentSong.title}}</p>
@@ -28,7 +28,7 @@
 
         <div ng-if="!songService.shuffle">
           <div class="row">
-            <ul class="list-group" style="width:450px">
+            <ul class="list-group" style="width:450px;">
               <li class="list-group-item" ng-repeat="song in songService.songsPage()">{{song.artist}} - {{song.title}}</li>
             </ul>
           </div>
