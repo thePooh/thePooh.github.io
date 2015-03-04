@@ -29,9 +29,16 @@
   <div ng-view></div>
 
   <script type="text/javascript">
+    function getPlayerService() {
+      return angular.element('div [ng-controller]').injector().get('ytPlayer');
+    }
+
     function onYouTubePlayerReady(playerId) {
-      var player = angular.element(document.body).injector().get('ytPlayer');
-      player.setPlayer(document.getElementById(playerId));
+      getPlayerService().setPlayer(document.getElementById(playerId));
+    }
+
+    function onYouTubePlayerStateChanged(state) {
+      getPlayerService().playerStateChanged(state);
     }
   </script>
 </body>

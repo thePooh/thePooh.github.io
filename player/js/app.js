@@ -50,7 +50,7 @@ VMP.factory('ytPlayer', ['SongService', function(SongService) {
   return {
     setPlayer: function(player) {
       this.flash = player;
-      this.flash.addEventListener("onStateChange", "angular.element(document.body).injector().get('ytPlayer').playerStateChanged");
+      this.flash.addEventListener("onStateChange", "onYouTubePlayerStateChanged");
       this.playNextSong();
     },
     requestFullScreen: function() {
