@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html ng-app="vmpApp">
-<head>
+<head ng-controller="HeaderController">
   <meta charset="UTF-8">
-  <title>Ого, ещё и клип есть?</title>
+  <title>{{title()}}</title>
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
   <script type="text/javascript">
     function onGoogleAPIReady() {
@@ -20,9 +20,9 @@
   <script src="js/app.js"></script>
 </head>
 <body>
-  <nav class="navbar navbar-inverse">
+  <nav class="navbar navbar-inverse" ng-controller="HeaderController">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Круто, ещё и клип есть?</a>
+      <div class="navbar-brand">{{header}}</a>
     </div>
   </nav>
 

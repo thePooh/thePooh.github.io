@@ -133,3 +133,22 @@ VMP.controller('ContentController', ['$scope', 'SongService', 'ytPlayer', functi
   $scope.toggleShuffle = function() { SongService.shuffle = !SongService.shuffle; }
   $scope.songService = SongService;
 }]);
+
+VMP.controller('HeaderController', ['$scope', 'SongService', function($scope, SongService) {
+  var titles = [
+    "А я и не знал, что у этой песни клип есть!",
+    "Проигрыватель музыкальных клипов из социальной сети вконтакте",
+    "Круто, ещё и клип есть!",
+    "Смотри, чо ща поставлю",
+    "Нажми на видео два раза - и оно займёт весь экран"
+  ], titleIndex = Math.floor(Math.random()*titles.length);
+  $scope.header = titles[titleIndex];
+  $scope.title = function() {
+    var song = SongService.currentSong();
+    if (song) {
+      return 'VCP: ' + song.artist + ' - ' + song.title;
+    } else {
+      return 'VCP: Vk.com music clips player';
+    }
+  }
+}]);
