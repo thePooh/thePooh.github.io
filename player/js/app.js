@@ -157,11 +157,10 @@ VMP.controller('ContentController', ['$scope', 'SongService', 'ytPlayer', functi
 
 VMP.controller('HeaderController', ['$scope', 'SongService', function($scope, SongService) {
   var titles = [
-    "А я и не знал, что у этой песни клип есть!",
-    "Проигрыватель музыкальных клипов из социальной сети вконтакте",
-    "Круто, ещё и клип есть!",
+    "Ого, у этой песни еще и клип есть!",
+    "Проигрыватель музыкальных клипов из ВКонтакте",
     "Смотри, чо ща поставлю",
-    "Нажми на видео два раза - и оно займёт весь экран"
+    "Ютьюб - для слабаков"
   ], titleIndex = Math.floor(Math.random()*titles.length);
   $scope.header = titles[titleIndex];
   $scope.title = function() {
