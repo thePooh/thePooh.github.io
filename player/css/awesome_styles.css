@@ -1,0 +1,76 @@
+body {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+body:before {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  background: url('/player/images/background.jpg') no-repeat;
+  background-size: cover;
+  z-index: -1;
+  height: 110%;
+  width: 110%;
+
+  -webkit-filter: blur(1px) brightness(45%);
+  -moz-filter: blur(1px) brightness(45%);
+  -o-filter: blur(1px) brightness(45%);
+  -ms-filter: blur(1px) brightness(45%);
+  filter: blur(1px) brightness(45%);
+}
+
+#where-magic-happens {
+  margin-top: 100px;
+}
+
+.welcome-container {
+  width: 65%;
+  margin-left: 100px;
+  margin-top: 300px;
+}
+
+.welcome-container h2 {
+  font-size: 3.5em;
+  color: white;
+}
+
+.row {
+  display: table;
+}
+
+[class*="col-"] {
+  float: none;
+  display: table-cell;
+  vertical-align: top;
+}
+
+.playlist-container {
+  background-color: rgba(255, 255, 255, 0.2);
+  position: relative;
+}
+
+.button-container {
+  position: absolute;
+  bottom: 0;
+  width: 96%;
+}
+
+.img-artist {
+  width: 250px;
+  height: 250px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50%;
+
+  margin: 0 auto 0 auto;
+
+  -webkit-border-radius: 150px;
+  -moz-border-radius:    150px;
+  border-radius:         150px;
+}
+
