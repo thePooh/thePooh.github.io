@@ -56,7 +56,7 @@ body:before {
 
 .button-container {
   position: absolute;
-  bottom: 0;
+  bottom: 5%;
   width: 96%;
 }
 
