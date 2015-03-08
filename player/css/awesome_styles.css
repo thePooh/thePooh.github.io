@@ -24,6 +24,10 @@ body:before {
   filter: blur(1px) brightness(45%);
 }
 
+#where-magic-happens {
+  margin-top: 100px;
+}
+
 .welcome-container {
   width: 65%;
   margin-left: 100px;
@@ -47,14 +51,22 @@ body:before {
 
 .playlist-container {
   background-color: rgba(255, 255, 255, 0.2);
+  position: relative;
+}
+
+.button-container {
+  position: absolute;
+  bottom: 5%;
+  width: 96%;
 }
 
 .img-artist {
-  width: 300px;
-  height: 300px;
+  width: 250px;
+  height: 250px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 50%;
+  margin: 0 auto 0 auto;
 
   -webkit-border-radius: 150px;
   -moz-border-radius:    150px;

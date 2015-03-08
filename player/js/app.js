@@ -105,6 +105,8 @@ VMP.factory('ytPlayer', ['SongService', function(SongService) {
       request = gapi.client.youtube.search.list({q: query, part: "id", maxResults: 1, type: "video"});
       request.execute(function(response) {
         var videoId = response.result.items[0].id.videoId;
+        var imgURL = $('.img-artist').data('url');
+        //$('.img-artist').css('background-image', 'url('+ imgURL + ')');
         player.loadVideoById(videoId);
       });
     },
