@@ -1,18 +1,10 @@
 function addPreviewPicture() {
-  var artistsName = $('.artists-name').text().trim();
-  $('.artists-name').itunesstoresearch({
-    'term': artistsName,
-    'entity': 'song',
-    'country':'US',
-    'limit': 1,
-    'callback':function(data){
-      if (img = data['results'][0]['artworkUrl100'])
-        imgURL = img.replace('100x100', '600x600')
-      else
-        imgURL = '/player/images/no-preview.jpg'
-      $('.img-artist').css('background-image', 'url('+ imgURL + ')');
-    }
-  });
+  var artistsName = $('.artists-name').text().trim().replace(' ', '+');
+  var lastFM = 'http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=' + artistsName + '&autocorrect=1&api_key=96f7a50b8a09b44d40da06b985eafd16&format=json'
+  $.get(lastFM, function(data) {
+    imgURL = data['artist']['image'].pop()['#text'];
+    $('.img-artist').css('background-image', 'url('+ imgURL + ')');
+  })
 }
 
 var VMP = angular.module('vmpApp', ['ngRoute']);

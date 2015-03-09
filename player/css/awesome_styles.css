@@ -1,5 +1,5 @@
 body {
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 body:before {
@@ -48,7 +48,7 @@ body:before {
   min-width: 70%;
 }
 
-.playlist-container {  
+.playlist-container {
   position: relative;
 }
 
@@ -58,7 +58,7 @@ body:before {
 
 .button-container {
   padding: 28px 10px 10px 10px;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .button-container button {
@@ -92,8 +92,8 @@ body:before {
 }
 
 .img-artist {
-  width: 250px;
-  height: 250px;
+  width: 210px;
+  height: 210px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 50%;
