@@ -7,27 +7,28 @@
     </div>
 
     <div class="col-md-4 playlist-container">
-      <div class="shuffled" ng-if="songService.shuffle">
-        <p class="text-center">Сейчас играет:</p>
-        <div class="img-artist"></div>
-        <p class="lead text-center"><span class='artists-name'>{{songService.currentSong.artist}}</span> - {{songService.currentSong.title}}</p>
-        <p class="text-center">Дальше будет:</p>
-        <a ng-click="next()"><p class="lead text-center">{{songService.nextSong.artist}} - {{songService.nextSong.title}}</p></a>
-        <button class="btn btn-link btn-sm text-center col-md-4 col-md-offset-4" ng-click="changeNextSong()">Хочу другую!</button>
-      </div>
-
-      <div class="unshuffled-list" ng-if="!songService.shuffle">
-        <div class="row">
+      <div class="playlist-wrapper">
+        <div class="shuffled-list" ng-if="songService.shuffle">
+          <p class="text-center">Сейчас играет:</p>
+          <div class="img-artist"></div>
+          <p class="lead text-center"><span class='artists-name'>{{songService.currentSong.artist}}</span> - {{songService.currentSong.title}}</p>
+          <p class="text-center">Дальше будет:</p>
+          <a ng-click="next()"><p class="lead text-center">{{songService.nextSong.artist}} - {{songService.nextSong.title}}</p></a>
+          <button class="btn btn-link btn-sm text-center col-md-4 col-md-offset-4" ng-click="changeNextSong()">Хочу другую!</button>
+        </div>
+        <div class="unshuffled-list" ng-if="!songService.shuffle">
+          <button class="btn btn-link btn-sm" ng-click="songService.prevPage()" ng-if="songService.hasPrevPage()">
+            <img class="prev-song" src="images/prev.png" alt="<"/>
+          </button>
           <ul class="list-group">
             <li class="list-group-item" ng-repeat="song in songService.songsPage()">
-              <b ng-if="songService.currentSong.aid == song.aid">{{song.artist}} - {{song.title}}</b>
-              <a ng-if="songService.currentSong.aid != song.aid" ng-click="playSong(song.aid)">{{song.artist}} - {{song.title}}</a>
+              <b class="song" ng-if="songService.currentSong.aid == song.aid">{{song.artist}} - {{song.title}}</b>
+              <a class="song" ng-if="songService.currentSong.aid != song.aid" ng-click="playSong(song.aid)">{{song.artist}} - {{song.title}}</a>
             </li>
           </ul>
-        </div>
-        <div class="row">
-          <button class="btn btn-link btn-sm col-md-2" ng-click="songService.prevPage()" ng-if="songService.hasPrevPage()">Назад</button>
-          <button class="btn btn-link btn-sm col-md-2 col-md-offset-8" ng-click="songService.nextPage()" ng-if="songService.hasNextPage()">Вперёд</button>
+          <button class="btn btn-link btn-sm" ng-click="songService.nextPage()" ng-if="songService.hasNextPage()">
+            <img class="next-song" src="images/next.png" alt=">"/>
+          </button>
         </div>
       </div>
       <div class="button-container">
@@ -39,10 +40,12 @@
       </div>
     </div>
   </div>
-  <h3 class="text-center">Приятного просмотра!</h3>
-  <p class="text-center">Знаете, мне нечего вам сказать. Но если я не напишу этот абзац, место будет пустовать и страница останется некрасивой. Поэтому мы здесь. Не то, чтобы в остальном всё было хорошо, но перед вами классический дизайн от программиста, придётся смириться.<br />
-  А, и ещё: чтобы развернуть видео на весь экран, можно на него дважды щёлкнуть.<br />
-  Если вдруг у вас возникнут предложения с непоправимыми улучшениями или что-то сломается - не стесняйтесь <a href="mailto:thePooh.12@gmail.com?Subject=Про плеер">писать мне</a>.</p>
+  <footer>
+    <p class="text-center">
+      Чтобы развернуть видео на весь экран, можно на него дважды щёлкнуть.<br />
+      Если вдруг у вас возникнут предложения с непоправимыми улучшениями или что-то сломается - не стесняйтесь <a href="mailto:thePooh.12@gmail.com?Subject=Про плеер">писать мне</a>.
+    </p>
+  </footer>
 </div>
 
 <script>

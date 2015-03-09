@@ -1,3 +1,20 @@
+function addPreviewPicture() {
+  var artistsName = $('.artists-name').text().trim();
+  $('.artists-name').itunesstoresearch({
+    'term': artistsName,
+    'entity': 'song',
+    'country':'US',
+    'limit': 1,
+    'callback':function(data){
+      if (img = data['results'][0]['artworkUrl100'])
+        imgURL = img.replace('100x100', '600x600')
+      else
+        imgURL = '/player/images/no-preview.jpg'
+      $('.img-artist').css('background-image', 'url('+ imgURL + ')');
+    }
+  });
+}
+
 var VMP = angular.module('vmpApp', ['ngRoute']);
 
 VMP.config(['$routeProvider',
@@ -105,8 +122,7 @@ VMP.factory('ytPlayer', ['SongService', function(SongService) {
       request = gapi.client.youtube.search.list({q: query, part: "id", maxResults: 1, type: "video"});
       request.execute(function(response) {
         var videoId = response.result.items[0].id.videoId;
-        var imgURL = $('.img-artist').data('url');
-        //$('.img-artist').css('background-image', 'url('+ imgURL + ')');
+        addPreviewPicture();
         player.loadVideoById(videoId);
       });
     },
@@ -142,7 +158,7 @@ VMP.controller('GreetingController', ['$scope', '$rootScope', '$location', 'Song
 VMP.controller('ContentController', ['$scope', 'SongService', 'ytPlayer', function($scope, SongService, ytPlayer) {
   var params = { allowScriptAccess: "always", allowFullScreen: true };
   var attrs = { id: "yt-player" };
-  swfobject.embedSWF("https://www.youtube.com/v/ktvTqknDobU?enablejsapi=1&version=3&controls=0&autoplay=1&fs=1&showinfo=0&modestbranding=1&playerapiid=yt-player", "yt-player", "100%", "650px", "8", null, null, params, attrs);
+  swfobject.embedSWF("https://www.youtube.com/v/ktvTqknDobU?enablejsapi=1&version=3&controls=0&autoplay=1&fs=1&showinfo=0&modestbranding=1&playerapiid=yt-player", "yt-player", "100%", "100%", "8", null, null, params, attrs);
   $scope.next = function() {
     ytPlayer.playNextSong();
   };

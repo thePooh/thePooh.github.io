@@ -1,9 +1,5 @@
 body {
-  position: fixed;
-  left: 0;
-  right: 0;
-  z-index: 0;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 body:before {
@@ -25,13 +21,15 @@ body:before {
 }
 
 #where-magic-happens {
-  margin-top: 100px;
+  position: absolute;
+  top: 10%;
 }
 
 .welcome-container {
   width: 65%;
-  margin-left: 100px;
-  margin-top: 300px;
+  position: absolute;
+  top: 250px;
+  left: 60px;
 }
 
 .welcome-container h2 {
@@ -47,17 +45,50 @@ body:before {
   float: none;
   display: table-cell;
   vertical-align: top;
+  min-width: 70%;
 }
 
-.playlist-container {
-  background-color: rgba(255, 255, 255, 0.2);
+.playlist-container {  
   position: relative;
 }
 
+.playlist-wrapper, .button-container {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
 .button-container {
-  position: absolute;
-  bottom: 5%;
-  width: 96%;
+  padding: 28px 10px 10px 10px;
+  overflow: hidden; 
+}
+
+.button-container button {
+  min-width: 146px;
+}
+
+.unshuffled-list, .shuffled-list {
+  min-height: 438px;
+  max-height: 438px;
+}
+
+.unshuffled-list {
+  display: flex;
+}
+
+.unshuffled-list ul {
+  width: 23em;
+  margin: 10px auto 0 auto;
+}
+
+.unshuffled-list ul li {
+  background-color: rgba(255, 255, 255, 0.5);
+  max-height: 42px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.next-song, .prev-song {
+  width: 20px;
 }
 
 .img-artist {
@@ -72,4 +103,3 @@ body:before {
   -moz-border-radius:    150px;
   border-radius:         150px;
 }
-
