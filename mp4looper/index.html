@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Просто добавь гиф-гиф</title>
+  <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("#link").keyup(function (e) {
+        var link = $(e.target).val();
+        var type = link.split('.').pop();
+        $("#video").empty();
+        $("#video").append($("<source src=\""+link+"\" type=\"video/"+type+"\">"));
+      });
+    });
+  </script>
+</head>
+<body style="background-color:rgb(228, 224, 163)">
+  <nav class="navbar navbar-inverse" ng-controller="HeaderController">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="">Как в 1996</a>
+    </div>
+  </nav>
+
+  <div id="content">
+    <div class="row text-center">
+      <div class="form-group">
+        <h1>Скопируй сюда ссылку с мувиком (mp4, например):</h1>
+        <input type="text" id="link" class="form-control input-lg" />
+      </div>
+    </div>
+    <div class="row text-center">
+      <video id="video" width="800" height="600" loop autoplay="autoplay">
+      </video>
+    </div>
+  </div>
+</body>
+</html>
