@@ -7,7 +7,7 @@ body:before {
   position: fixed;
   left: 0;
   right: 0;
-  background: url('/player/images/background.jpg') no-repeat;
+  background: url('/player/images/background/background.jpg') no-repeat;
   background-size: cover;
   z-index: -1;
   height: 110%;

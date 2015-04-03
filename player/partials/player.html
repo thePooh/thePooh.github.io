@@ -47,19 +47,3 @@
     </p>
   </footer>
 </div>
-
-<script>
-$(document).ready(function() {
-  $('.artists-name').itunesstoresearch({
-      'term': 'Imagine Dragons',
-      'entity': 'song',
-      'country':'US',
-      'limit':1,
-      'callback':function(data){
-        imgURL = data['results'][0]['artworkUrl100'];
-        console.log(imgURL);
-        $('.img-artist').css('background-image', 'url('+ imgURL + ')');
-      }
-  });
-}).load();
-</script>
