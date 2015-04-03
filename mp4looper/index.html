@@ -8,7 +8,7 @@
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function(){
-      $("#link").keyup(function (e) {
+      $("#link").change(function (e) {
         var link = $(e.target).val();
         var type = link.split('.').pop();
         $("#video").empty();
