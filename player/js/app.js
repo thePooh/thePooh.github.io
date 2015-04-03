@@ -27,7 +27,7 @@ VMP.config(['$routeProvider',
 
 VMP.factory('SongService', function() {
   return {
-    fetchSongs: function() {
+    fetchSongs: function(callback) {
       var _this = this;
       VK.Api.call('audio.get', {}, function(response) {
         _this.songs = response.response;
@@ -36,6 +36,7 @@ VMP.factory('SongService', function() {
         _this.nextSong = _this.randomSong();
         _this.offset = 0;
         _this.limit = 10;
+        callback();
       });
     },
     randomSong: function() {
@@ -138,9 +139,10 @@ VMP.controller('GreetingController', ['$scope', '$rootScope', '$location', 'Song
   $scope.login = function() {
     VK.Auth.login(function(response) {
       if (response.session) {
-        SongService.fetchSongs();
-        $rootScope.$apply(function() {
-          $location.path('/player');
+        SongService.fetchSongs(function() {
+          $rootScope.$apply(function() {
+            $location.path('/player');
+          });
         });
       }
     }, 8);
