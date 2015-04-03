@@ -1,49 +1,49 @@
 <div class="container-fluid content" id="where-magic-happens">
   <div class="row">
-    <div class="col-md-7">
+    <div class="col-md-8 youtube-container">
       <div id="yt-player">
         Сначала нужно войти. Если это не поможет - убедитесь, что у вас есть <a href="http://get.adobe.com/flashplayer">Flash Player</a>.
       </div>
     </div>
 
-    <div class="col-md-5">
-      <div style="height:580px;display:table-cell;vertical-align:middle">
-        <div style="width:600px;" ng-if="songService.shuffle">
+    <div class="col-md-4 playlist-container">
+      <div class="playlist-wrapper">
+        <div class="shuffled-list" ng-if="songService.shuffle">
           <p class="text-center">Сейчас играет:</p>
-          <p class="lead text-center">{{songService.currentSong.artist}} - {{songService.currentSong.title}}</p>
+          <div class="img-artist"></div>
+          <p class="lead text-center"><span class='artists-name'>{{songService.currentSong.artist}}</span> - {{songService.currentSong.title}}</p>
           <p class="text-center">Дальше будет:</p>
           <a ng-click="next()"><p class="lead text-center">{{songService.nextSong.artist}} - {{songService.nextSong.title}}</p></a>
           <button class="btn btn-link btn-sm text-center col-md-4 col-md-offset-4" ng-click="changeNextSong()">Хочу другую!</button>
         </div>
-
-
-        <div ng-if="!songService.shuffle">
-          <div class="row">
-            <ul class="list-group" style="width:600px;">
-              <li class="list-group-item" ng-repeat="song in songService.songsPage()">
-                <b ng-if="songService.currentSong.aid == song.aid">{{song.artist}} - {{song.title}}</b>
-                <a ng-if="songService.currentSong.aid != song.aid" ng-click="playSong(song.aid)">{{song.artist}} - {{song.title}}</a>
-              </li>
-            </ul>
-          </div>
-          <div class="row">
-            <button class="btn btn-link btn-sm col-md-2" ng-click="songService.prevPage()" ng-if="songService.hasPrevPage()">Назад</button>
-            <button class="btn btn-link btn-sm col-md-2 col-md-offset-8" ng-click="songService.nextPage()" ng-if="songService.hasNextPage()">Вперёд</button>
-          </div>
+        <div class="unshuffled-list" ng-if="!songService.shuffle">
+          <button class="btn btn-link btn-sm" ng-click="songService.prevPage()" ng-if="songService.hasPrevPage()">
+            <img class="prev-song" src="images/prev.png" alt="<"/>
+          </button>
+          <ul class="list-group">
+            <li class="list-group-item" ng-repeat="song in songService.songsPage()">
+              <b class="song" ng-if="songService.currentSong.aid == song.aid">{{song.artist}} - {{song.title}}</b>
+              <a class="song" ng-if="songService.currentSong.aid != song.aid" ng-click="playSong(song.aid)">{{song.artist}} - {{song.title}}</a>
+            </li>
+          </ul>
+          <button class="btn btn-link btn-sm" ng-click="songService.nextPage()" ng-if="songService.hasNextPage()">
+            <img class="next-song" src="images/next.png" alt=">"/>
+          </button>
         </div>
       </div>
-
-      <div class="row">
-        <button class="btn btn-warning col-md-4" ng-click="toggleShuffle()">
+      <div class="button-container">
+        <button class="btn btn-warning" ng-click="toggleShuffle()">
           <div ng-if="songService.shuffle">Перестать мешать</div>
           <div ng-if="!songService.shuffle">Перемешать</div>
         </button>
-        <button class="btn btn-primary col-md-4 col-md-offset-2" ng-click="next()">Следующая песня</button>
+        <button class="btn btn-primary pull-right" ng-click="next()">Следующая песня</button>
       </div>
     </div>
   </div>
-  <h3 class="text-center">Приятного просмотра!</h3>
-  <p class="lead text-center">Знаете, мне нечего вам сказать. Но если я не напишу этот абзац, место будет пустовать и страница останется некрасивой. Поэтому мы здесь. Не то, чтобы в остальном всё было хорошо, но перед вами классический дизайн от программиста, придётся смириться.<br />
-  А, и ещё: чтобы развернуть видео на весь экран, можно на него дважды щёлкнуть.<br />
-  Если вдруг у вас возникнут предложения с непоправимыми улучшениями или что-то сломается - не стесняйтесь <a href="mailto:thePooh.12@gmail.com?Subject=Про плеер">писать мне</a>.</p>
+  <footer>
+    <p class="text-center">
+      Чтобы развернуть видео на весь экран, можно на него дважды щёлкнуть.<br />
+      Если вдруг у вас возникнут предложения с непоправимыми улучшениями или что-то сломается - не стесняйтесь <a href="mailto:thePooh.12@gmail.com?Subject=Про плеер">писать мне</a>.
+    </p>
+  </footer>
 </div>

@@ -1,3 +1,12 @@
+function addPreviewPicture() {
+  var artistsName = $('.artists-name').text().trim().replace(' ', '+');
+  var lastFM = 'http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=' + artistsName + '&autocorrect=1&api_key=96f7a50b8a09b44d40da06b985eafd16&format=json'
+  $.get(lastFM, function(data) {
+    imgURL = data['artist']['image'].pop()['#text'];
+    $('.img-artist').css('background-image', 'url('+ imgURL + ')');
+  })
+}
+
 var VMP = angular.module('vmpApp', ['ngRoute']);
 
 VMP.config(['$routeProvider',
@@ -105,6 +114,7 @@ VMP.factory('ytPlayer', ['SongService', function(SongService) {
       request = gapi.client.youtube.search.list({q: query, part: "id", maxResults: 1, type: "video"});
       request.execute(function(response) {
         var videoId = response.result.items[0].id.videoId;
+        addPreviewPicture();
         player.loadVideoById(videoId);
       });
     },
@@ -140,7 +150,7 @@ VMP.controller('GreetingController', ['$scope', '$rootScope', '$location', 'Song
 VMP.controller('ContentController', ['$scope', 'SongService', 'ytPlayer', function($scope, SongService, ytPlayer) {
   var params = { allowScriptAccess: "always", allowFullScreen: true };
   var attrs = { id: "yt-player" };
-  swfobject.embedSWF("https://www.youtube.com/v/ktvTqknDobU?enablejsapi=1&version=3&controls=0&autoplay=1&fs=1&showinfo=0&modestbranding=1&playerapiid=yt-player", "yt-player", "100%", "650px", "8", null, null, params, attrs);
+  swfobject.embedSWF("https://www.youtube.com/v/ktvTqknDobU?enablejsapi=1&version=3&controls=0&autoplay=1&fs=1&showinfo=0&modestbranding=1&playerapiid=yt-player", "yt-player", "100%", "100%", "8", null, null, params, attrs);
   $scope.next = function() {
     ytPlayer.playNextSong();
   };
@@ -157,11 +167,10 @@ VMP.controller('ContentController', ['$scope', 'SongService', 'ytPlayer', functi
 
 VMP.controller('HeaderController', ['$scope', 'SongService', function($scope, SongService) {
   var titles = [
-    "А я и не знал, что у этой песни клип есть!",
-    "Проигрыватель музыкальных клипов из социальной сети вконтакте",
-    "Круто, ещё и клип есть!",
+    "Ого, у этой песни еще и клип есть!",
+    "Проигрыватель музыкальных клипов из ВКонтакте",
     "Смотри, чо ща поставлю",
-    "Нажми на видео два раза - и оно займёт весь экран"
+    "Ютьюб - для слабаков"
   ], titleIndex = Math.floor(Math.random()*titles.length);
   $scope.header = titles[titleIndex];
   $scope.title = function() {
