@@ -116,6 +116,7 @@ VMP.factory('ytPlayer', ['SongService', function(SongService) {
       request.execute(function(response) {
         var videoId = response.result.items[0].id.videoId;
         addPreviewPicture();
+        // suggestedQuality: 'hd1080'
         player.loadVideoById(videoId);
       });
     },
