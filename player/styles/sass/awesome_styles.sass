@@ -12,9 +12,19 @@
   -o-border-radius:      $radius
   border-radius:         $radius
 
+@font-face
+  font-family: Bebas
+  src: url('/player/styles/fonts/Bebas.ttf')
+
+@font-face
+  font-family: Ostrich
+  src: url('/player/styles/fonts/ostrich-regular.ttf')
+
+
+$mediumvioletred: rgb(197,23,93)
+
 body
   overflow: hidden
-  font-family: 'Railway', sans-serif
   &:before
     content: ""
     position: fixed
@@ -29,20 +39,28 @@ body
     +filter(1px, 45%)
 
 
+
 #where-magic-happens
   position: absolute
   top: 10%
 
 
 .welcome-container
-  width: 65%
   position: absolute
   top: 250px
-  left: 60px
-  h2
-    font-size: 3.5em
+  left: 15%
+  right: 15%
+  text-align: center
+  .first-line
+    font-size: 9em
+    font-family: Bebas
     color: white
-
+    opacity: 0.8
+  .second-line
+    font-size: 9.5em
+    font-family: Ostrich
+    font-weight: bold
+    color: $mediumvioletred
 
 .playlist-container
   position: fixed

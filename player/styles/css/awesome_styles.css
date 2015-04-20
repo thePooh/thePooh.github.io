@@ -1,6 +1,11 @@
+@font-face {
+  font-family: Bebas;
+  src: url("/player/styles/fonts/Bebas.ttf"); }
+@font-face {
+  font-family: Ostrich;
+  src: url("/player/styles/fonts/ostrich-regular.ttf"); }
 body {
-  overflow: hidden;
-  font-family: "Railway", sans-serif; }
+  overflow: hidden; }
   body:before {
     content: "";
     position: fixed;
@@ -22,13 +27,21 @@ body {
   top: 10%; }
 
 .welcome-container {
-  width: 65%;
   position: absolute;
   top: 250px;
-  left: 60px; }
-  .welcome-container h2 {
-    font-size: 3.5em;
-    color: white; }
+  left: 15%;
+  right: 15%;
+  text-align: center; }
+  .welcome-container .first-line {
+    font-size: 9em;
+    font-family: Bebas;
+    color: white;
+    opacity: 0.8; }
+  .welcome-container .second-line {
+    font-size: 9.5em;
+    font-family: Ostrich;
+    font-weight: bold;
+    color: #c5175d; }
 
 .playlist-container {
   position: fixed;
