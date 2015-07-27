@@ -1,12 +1,3 @@
-function addPreviewPicture() {
-  var artistsName = $('.artists-name').text().trim().replace(' ', '+');
-  var lastFM = 'http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=' + artistsName + '&autocorrect=1&api_key=96f7a50b8a09b44d40da06b985eafd16&format=json'
-  $.get(lastFM, function(data) {
-    imgURL = data['artist']['image'].pop()['#text'];
-    $('.img-artist').css('background-image', 'url('+ imgURL + ')');
-  })
-}
-
 var VMP = angular.module('vmpApp', ['ngRoute']);
 
 VMP.config(['$routeProvider',
@@ -30,7 +21,6 @@ VMP.factory('SongService', function() {
     vkLogin: function(callback) {
       var _this = this;
       VK.Auth.login(function(response) {
-        console.log(response);
         if (response.session) {
           _this.fetchSongs(callback);
         }
@@ -90,6 +80,16 @@ VMP.factory('SongService', function() {
       }
       return this.currentSong;
     },
+    setPicture: function(scope) {
+      var _this = this;
+      var lastFMUrl = 'http://ws.audioscrobbler.com/2.0/?method=artist.getInfo&artist=' + this.currentSong.artist.trim().replace(' ', '+') + '&autocorrect=1&api_key=96f7a50b8a09b44d40da06b985eafd16&format=json';
+      $.get(lastFMUrl, function(data) {
+        _this.currentPicture = data['artist']['image'].pop()['#text'];
+        if (!scope.$$phase) {
+          scope.$digest();
+        }
+      })
+    },
     hasNextPage: function() { return this.songs.length > this.offset + this.limit; },
     nextPage: function() { this.offset += this.limit; },
     hasPrevPage: function() { return this.offset > 0 },
@@ -124,13 +124,13 @@ VMP.factory('ytPlayer', ['SongService', function(SongService) {
       request = gapi.client.youtube.search.list({q: query, part: "id", maxResults: 1, type: "video"});
       request.execute(function(response) {
         var videoId = response.result.items[0].id.videoId;
-        addPreviewPicture();
         // suggestedQuality: 'hd1080'
         player.loadVideoById(videoId);
       });
     },
     playNextSong: function() {
       song = SongService.playNextSong();
+      SongService.setPicture(scope);
       this.playVideoByRequest(song.artist + ' ' + song.title);
       if (!scope.$$phase) {
         scope.$digest();
@@ -151,26 +151,31 @@ VMP.controller('GreetingController', ['$scope', '$rootScope', '$location', 'Song
     });
   }
   $scope.login = function() { SongService.vkLogin(callback) }
-  console.log(VK.Auth.getSession());
   if (VK.Auth.getSession()) { SongService.fetchSongs(callback) }
 }]);
 
-VMP.controller('ContentController', ['$scope', 'SongService', 'ytPlayer', function($scope, SongService, ytPlayer) {
-  var params = { allowScriptAccess: "always", allowFullScreen: true };
-  var attrs = { id: "yt-player" };
-  swfobject.embedSWF("https://www.youtube.com/v/ktvTqknDobU?enablejsapi=1&version=3&controls=0&autoplay=1&fs=1&showinfo=0&modestbranding=1&playerapiid=yt-player", "yt-player", "100%", "100%", "8", null, null, params, attrs);
-  $scope.next = function() {
-    ytPlayer.playNextSong();
-  };
-  $scope.fullscreen = function() {
-    ytPlayer.requestFullScreen();
-  };
-  $scope.changeNextSong = function() {
-    SongService.changeNextSong();
-  };
-  $scope.playSong = function(aid) { SongService.queued = aid; this.next() };
-  $scope.toggleShuffle = function() { SongService.toggleShuffle(); }
-  $scope.songService = SongService;
+VMP.controller('ContentController', ['$scope', '$rootScope', '$location', 'SongService', 'ytPlayer', function($scope, $rootScope, $location, SongService, ytPlayer) {
+  if (VK.Auth.getSession() == null) {
+    $rootScope.$apply(function() {
+      $location.path('/greeting');
+    });
+  } else {
+    var params = { allowScriptAccess: "always", allowFullScreen: true };
+    var attrs = { id: "yt-player" };
+    swfobject.embedSWF("https://www.youtube.com/v/ktvTqknDobU?enablejsapi=1&version=3&controls=0&autoplay=1&fs=1&showinfo=0&modestbranding=1&playerapiid=yt-player", "yt-player", "100%", "100%", "8", null, null, params, attrs);
+    $scope.next = function() {
+      ytPlayer.playNextSong();
+    };
+    $scope.fullscreen = function() {
+      ytPlayer.requestFullScreen();
+    };
+    $scope.changeNextSong = function() {
+      SongService.changeNextSong();
+    };
+    $scope.playSong = function(aid) { SongService.queued = aid; this.next() };
+    $scope.toggleShuffle = function() { SongService.toggleShuffle(); }
+    $scope.songService = SongService;
+  }
 }]);
 
 VMP.controller('HeaderController', ['$scope', 'SongService', function($scope, SongService) {

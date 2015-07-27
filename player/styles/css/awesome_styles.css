@@ -77,7 +77,7 @@ body {
   right: 0; }
 
 .playlist-wrapper, .button-container {
-  background-color: rgba(255, 255, 255, 0.2); }
+  background-color: rgba(255, 255, 255, 0.3); }
 
 .button-container {
   padding: 28px 10px 10px 10px;
@@ -87,7 +87,9 @@ body {
 
 .unshuffled-list, .shuffled-list {
   min-height: 438px;
-  max-height: 438px; }
+  max-height: 438px;
+  margin-left: 10px;
+  margin-right: 10px; }
 
 .unshuffled-list {
   display: flex; }
@@ -199,5 +201,9 @@ body {
   z-index: 0;
   -webkit-transition: all 0.7s 1s ease-out;
   transition: all 0.7s 1s ease-out; }
+
+.main-text {
+  color: #eeeeee;
+  font-weight: bold; }
 
 /*# sourceMappingURL=awesome_styles.css.map */

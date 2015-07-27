@@ -9,10 +9,10 @@
       <div class="playlist-wrapper">
         <div class="shuffled-list" ng-if="songService.shuffle">
           <p class="text-center">Сейчас играет:</p>
-          <div class="img-artist"></div>
-          <p class="lead text-center"><span class='artists-name'>{{songService.currentSong.artist}}</span> - {{songService.currentSong.title}}</p>
-          <p class="text-center">Дальше будет:</p>
-          <a ng-click="next()"><p class="lead text-center">{{songService.nextSong.artist}} - {{songService.nextSong.title}}</p></a>
+          <div class="img-artist" style="background-image:url({{songService.currentPicture}})"></div>
+          <p class="lead text-center main-text"><span class='artists-name'>{{songService.currentSong.artist}}</span> &mdash; {{songService.currentSong.title}}</p>
+          <p class="text-center main-text">Дальше будет:</p>
+          <a ng-click="next()"><p class="lead text-center">{{songService.nextSong.artist}} &mdash; {{songService.nextSong.title}}</p></a>
           <button class="btn btn-link btn-sm text-center col-md-4 col-md-offset-4" ng-click="changeNextSong()">Хочу другую!</button>
         </div>
         <div class="unshuffled-list" ng-if="!songService.shuffle">
