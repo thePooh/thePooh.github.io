@@ -178,3 +178,9 @@ VMP.controller('HeaderController', ['$scope', 'SongService', function($scope, So
     }
   }
 }]);
+
+$(document).ready(function(){
+  setTimeout(function(){
+    $('body').addClass('loaded');
+  }, 2200);
+})

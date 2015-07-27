@@ -12,6 +12,38 @@
   -o-border-radius:      $radius
   border-radius:         $radius
 
+=equally-positioned($value)
+  position: absolute
+  top:    $value
+  left:   $value
+  right:  $value
+  bottom: $value
+
+=spins($time)
+  -webkit-animation: spin $time linear infinite
+  animation: spin $time linear infinite
+
+@-webkit-keyframes spin
+  0%
+    -webkit-transform: rotate(0deg)  /* Chrome, Opera 15+, Safari 3.1+ */
+    -ms-transform:     rotate(0deg)  /* IE 9 */
+    transform:         rotate(0deg)  /* Firefox 16+, IE 10+, Opera */
+  100%
+    -webkit-transform: rotate(360deg)
+    -ms-transform:     rotate(360deg)
+    transform:         rotate(360deg)
+
+@keyframes spin
+  0%
+    -webkit-transform: rotate(0deg)  /* Chrome, Opera 15+, Safari 3.1+ */
+    -ms-transform:     rotate(0deg)  /* IE 9 */
+    transform:         rotate(0deg)  /* Firefox 16+, IE 10+, Opera */
+  100%
+    -webkit-transform: rotate(360deg)
+    -ms-transform:     rotate(360deg)
+    transform:         rotate(360deg)
+
+
 @font-face
   font-family: Bebas
   src: url('/player/styles/fonts/Bebas.ttf')
@@ -22,6 +54,7 @@
 
 
 $mediumvioletred: rgb(197,23,93)
+$darksalmon: rgb(246,150,126)
 
 body
   overflow: hidden
@@ -35,7 +68,6 @@ body
     z-index: -1
     height: 110%
     width: 110%
-
     +filter(1px, 45%)
 
 
@@ -55,12 +87,13 @@ body
     font-size: 9em
     font-family: Bebas
     color: white
-    opacity: 0.8
+    opacity: 0
   .second-line
     font-size: 9.5em
     font-family: Ostrich
     font-weight: bold
     color: $mediumvioletred
+    opacity: 0
 
 .playlist-container
   position: fixed
@@ -118,6 +151,67 @@ body
   background-size: cover
   background-position: 50%
   margin: 0 auto 0 auto
-
   +border-radius(150px)
+
+#loader-wrapper
+  position: fixed
+  top: 0
+  width: 100%
+  height: 100%
+  background: #222222
+  z-index: 100
+
+#loader
+  display: block
+  position: relative
+  left: 50%
+  top: 50%
+  width: 150px
+  height: 150px
+  margin: -75px 0 0 -75px
+  border: 3px solid transparent
+  border-top-color: white
+  z-index: 101
+  +border-radius(50%)
+  +spins(2s)
+  &:before
+    content: ""
+    border: 3px solid transparent
+    border-top-color: $mediumvioletred
+    +border-radius(50%)
+    +equally-positioned(7px)
+    +spins(3s)
+  &:after
+    content: ""
+    border: 3px solid transparent
+    border-top-color: $darksalmon
+    +border-radius(50%)
+    +equally-positioned(22px)
+    +spins(1.5s)
+
+.no-js #loader-wrapper
+  display: none
+
+.no-js .beautiful-header
+  .first-line, .second-line
+    opacity: 1
+
+.loaded
+  .beautiful-header .first-line
+    opacity: 1
+    -webkit-transition: all 1.5s 2s ease-out
+    transition: all 1.5s 2s ease-out
+  .beautiful-header .second-line
+    opacity: 1
+    -webkit-transition: all 1s 2.7s ease-out
+    transition: all 1s 2.7s ease-out
+  #loader
+    opacity: 0
+    -webkit-transition: all 0.3s 0.3s ease-out
+    transition:         all 0.3s 0.3s ease-out
+  #loader-wrapper
+    opacity: 0
+    z-index: 0
+    -webkit-transition: all 0.7s 1s ease-out
+    transition:         all 0.7s 1s ease-out
 

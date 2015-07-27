@@ -1,3 +1,21 @@
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg); } }
 @font-face {
   font-family: Bebas;
   src: url("/player/styles/fonts/Bebas.ttf"); }
@@ -36,12 +54,13 @@ body {
     font-size: 9em;
     font-family: Bebas;
     color: white;
-    opacity: 0.8; }
+    opacity: 0; }
   .welcome-container .second-line {
     font-size: 9.5em;
     font-family: Ostrich;
     font-weight: bold;
-    color: #c5175d; }
+    color: #c5175d;
+    opacity: 0; }
 
 .playlist-container {
   position: fixed;
@@ -97,5 +116,88 @@ body {
   -ms-border-radius: 150px;
   -o-border-radius: 150px;
   border-radius: 150px; }
+
+#loader-wrapper {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: #222222;
+  z-index: 100; }
+
+#loader {
+  display: block;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 3px solid transparent;
+  border-top-color: white;
+  z-index: 101;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite; }
+  #loader:before {
+    content: "";
+    border: 3px solid transparent;
+    border-top-color: #c5175d;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    right: 7px;
+    bottom: 7px;
+    -webkit-animation: spin 3s linear infinite;
+    animation: spin 3s linear infinite; }
+  #loader:after {
+    content: "";
+    border: 3px solid transparent;
+    border-top-color: #f6967e;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+    position: absolute;
+    top: 22px;
+    left: 22px;
+    right: 22px;
+    bottom: 22px;
+    -webkit-animation: spin 1.5s linear infinite;
+    animation: spin 1.5s linear infinite; }
+
+.no-js #loader-wrapper {
+  display: none; }
+
+.no-js .beautiful-header .first-line, .no-js .beautiful-header .second-line {
+  opacity: 1; }
+
+.loaded .beautiful-header .first-line {
+  opacity: 1;
+  -webkit-transition: all 1.5s 2s ease-out;
+  transition: all 1.5s 2s ease-out; }
+.loaded .beautiful-header .second-line {
+  opacity: 1;
+  -webkit-transition: all 1s 2.7s ease-out;
+  transition: all 1s 2.7s ease-out; }
+.loaded #loader {
+  opacity: 0;
+  -webkit-transition: all 0.3s 0.3s ease-out;
+  transition: all 0.3s 0.3s ease-out; }
+.loaded #loader-wrapper {
+  opacity: 0;
+  z-index: 0;
+  -webkit-transition: all 0.7s 1s ease-out;
+  transition: all 0.7s 1s ease-out; }
 
 /*# sourceMappingURL=awesome_styles.css.map */

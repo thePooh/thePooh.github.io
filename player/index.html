@@ -21,7 +21,11 @@
   <link rel="stylesheet" href="styles/css/awesome_styles.css" type="text/css">
 </head>
 <body>
-  <div id="content" ng-view></div>
+  <div id="loader-wrapper">
+    <div id="loader"></div>
+  </div>
+  <div id="content" ng-view>
+  </div>
 
   <script type="text/javascript">
     function getPlayerService() {
