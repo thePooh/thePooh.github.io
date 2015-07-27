@@ -27,6 +27,15 @@ VMP.config(['$routeProvider',
 
 VMP.factory('SongService', function() {
   return {
+    vkLogin: function(callback) {
+      var _this = this;
+      VK.Auth.login(function(response) {
+        console.log(response);
+        if (response.session) {
+          _this.fetchSongs(callback);
+        }
+      }, 65544);
+    },
     fetchSongs: function(callback) {
       var _this = this;
       VK.Api.call('audio.get', {}, function(response) {
@@ -136,18 +145,14 @@ VMP.factory('ytPlayer', ['SongService', function(SongService) {
 }]);
 
 VMP.controller('GreetingController', ['$scope', '$rootScope', '$location', 'SongService', function($scope, $rootScope, $location, SongService) {
-  VK.init({ apiId: "4797696" });
-  $scope.login = function() {
-    VK.Auth.login(function(response) {
-      if (response.session) {
-        SongService.fetchSongs(function() {
-          $rootScope.$apply(function() {
-            $location.path('/player');
-          });
-        });
-      }
-    }, 8);
-  };
+  var callback = function() {
+    $rootScope.$apply(function() {
+      $location.path('/player');
+    });
+  }
+  $scope.login = function() { SongService.vkLogin(callback) }
+  console.log(VK.Auth.getSession());
+  if (VK.Auth.getSession()) { SongService.fetchSongs(callback) }
 }]);
 
 VMP.controller('ContentController', ['$scope', 'SongService', 'ytPlayer', function($scope, SongService, ytPlayer) {
@@ -180,6 +185,7 @@ VMP.controller('HeaderController', ['$scope', 'SongService', function($scope, So
 }]);
 
 $(document).ready(function(){
+  VK.init({ apiId: "4797696" });
   setTimeout(function(){
     $('body').addClass('loaded');
   }, 2200);
