@@ -156,9 +156,11 @@ VMP.controller('GreetingController', ['$scope', '$rootScope', '$location', 'Song
 
 VMP.controller('ContentController', ['$scope', '$rootScope', '$location', 'SongService', 'ytPlayer', function($scope, $rootScope, $location, SongService, ytPlayer) {
   if (VK.Auth.getSession() == null) {
-    $rootScope.$apply(function() {
-      $location.path('/greeting');
-    });
+    setTimeout(function() {
+      $rootScope.$apply(function() {
+        $location.path('/greeting');
+      })
+    }, 300);
   } else {
     var params = { allowScriptAccess: "always", allowFullScreen: true };
     var attrs = { id: "yt-player" };
