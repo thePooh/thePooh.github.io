@@ -6,27 +6,27 @@
   </div>
 
     <div class="playlist-container">
-      <div class="playlist-wrapper">
-        <div class="shuffled-list" ng-if="songService.shuffle">
-          <p class="text-center">Сейчас играет:</p>
-          <div class="img-artist" style="background-image:url({{songService.currentPicture}})"></div>
-          <p class="lead text-center main-text"><span class='artists-name'>{{songService.currentSong.artist}}</span> &mdash; {{songService.currentSong.title}}</p>
-          <p class="text-center main-text">Дальше будет:</p>
-          <a ng-click="next()"><p class="lead text-center">{{songService.nextSong.artist}} &mdash; {{songService.nextSong.title}}</p></a>
-          <button class="btn btn-link btn-sm text-center col-md-4 col-md-offset-4" ng-click="changeNextSong()">Хочу другую!</button>
-        </div>
-        <div class="unshuffled-list" ng-if="!songService.shuffle">
-          <button class="btn btn-link btn-sm" ng-click="songService.prevPage()" ng-if="songService.hasPrevPage()">
+      <div class="shuffled-list" ng-if="songService.shuffle">
+        <p class="text-center">Сейчас играет:</p>
+        <div class="img-artist" style="background-image:url({{songService.currentPicture}})"></div>
+        <p class="lead text-center main-text"><span class='artists-name'>{{songService.currentSong.artist}}</span> &mdash; {{songService.currentSong.title}}</p>
+        <p class="text-center main-text">Дальше будет:</p>
+        <a class="next-song-in-a-row" ng-click="next()"><p class="lead text-center">{{songService.nextSong.artist}} &mdash; {{songService.nextSong.title}}</p></a>
+        <button class="btn btn-sm text-center col-md-4 col-md-offset-4" ng-click="changeNextSong()">Хочу другую!</button>
+      </div>
+      <div class="unshuffled-list" ng-if="!songService.shuffle">
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="song in songService.songsPage()">
+            <p class="song" ng-if="songService.currentSong.aid == song.aid" ng-attr-title="{{song.artist}} - {{song.title}}"><b>{{song.artist}}</b> - {{song.title}}</p>
+            <a class="song" ng-if="songService.currentSong.aid != song.aid" ng-click="playSong(song.aid)" ng-attr-title="{{song.artist}} - {{song.title}}"><b>{{song.artist}}</b> - {{song.title}}</a>
+          </li>
+        </ul>
+        <div class="np-button-container">
+          <button class="prev-song btn btn-link btn-sm" ng-click="songService.prevPage()" ng-if="songService.hasPrevPage()">
             <img class="prev-song" src="images/prev.png" alt="<"/>
           </button>
-          <ul class="list-group">
-            <li class="list-group-item" ng-repeat="song in songService.songsPage()">
-              <b class="song" ng-if="songService.currentSong.aid == song.aid">{{song.artist}} - {{song.title}}</b>
-              <a class="song" ng-if="songService.currentSong.aid != song.aid" ng-click="playSong(song.aid)">{{song.artist}} - {{song.title}}</a>
-            </li>
-          </ul>
-          <button class="btn btn-link btn-sm" ng-click="songService.nextPage()" ng-if="songService.hasNextPage()">
-            <img class="next-song" src="images/next.png" alt=">"/>
+          <button class="next-song btn btn-link btn-sm" ng-click="songService.nextPage()" ng-if="songService.hasNextPage()">
+            <img src="images/next.png" alt=">"/>
           </button>
         </div>
       </div>

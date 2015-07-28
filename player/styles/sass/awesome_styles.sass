@@ -70,8 +70,6 @@ body
     width: 110%
     +filter(1px, 45%)
 
-
-
 #where-magic-happens
   position: absolute
   top: 10%
@@ -99,7 +97,12 @@ body
   position: fixed
   top: 0
   right: 0
-  z-index: 10
+  z-index: 2
+  display: block
+  width: 345px
+  height: 540px
+  background-color: rgba(255, 255, 255, 0.3)
+  padding: 2px
 
 
 .youtube-container
@@ -110,29 +113,24 @@ body
   left: 0
   right: 0
 
-
-.playlist-wrapper, .button-container
-  background-color: rgba(255, 255, 255, 0.3)
-
-
 .button-container
-  padding: 28px 10px 10px 10px
-  overflow: hidden
+  padding: 35px 15px 0 15px
   button
     min-width: 146px
 
+.np-button-container
+  margin: 0 auto 0 auto
+  width: 100px
+
 
 .unshuffled-list, .shuffled-list
-  min-height: 438px
-  max-height: 438px
-  margin-left: 10px
-  margin-right: 10px
+  position: relative
+  height: 80%
 
 
 .unshuffled-list
-  display: flex
   ul
-    width: 23em
+    width: 20em
     margin: 10px auto 0 auto
     li
       background-color: rgba(255, 255, 255, 0.5)
@@ -141,9 +139,16 @@ body
       overflow: hidden
       text-overflow: ellipsis
 
+.song
+  font-size: 13px
+  &:hover
+    cursor: pointer
+    text-decoration: none
+
 
 .next-song, .prev-song
-  width: 20px
+  img
+    width: 20px
 
 
 .img-artist
@@ -220,3 +225,11 @@ body
 .main-text
   color: #eeeeee
   font-weight: bold
+
+.artists-name
+  pointer-events: none
+
+.next-song-in-a-row
+  cursor: pointer
+  &:hover
+    text-decoration: none

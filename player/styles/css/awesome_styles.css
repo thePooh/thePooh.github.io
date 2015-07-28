@@ -66,7 +66,12 @@ body {
   position: fixed;
   top: 0;
   right: 0;
-  z-index: 10; }
+  z-index: 2;
+  display: block;
+  width: 345px;
+  height: 540px;
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 2px; }
 
 .youtube-container {
   z-index: 1;
@@ -76,34 +81,36 @@ body {
   left: 0;
   right: 0; }
 
-.playlist-wrapper, .button-container {
-  background-color: rgba(255, 255, 255, 0.3); }
-
 .button-container {
-  padding: 28px 10px 10px 10px;
-  overflow: hidden; }
+  padding: 35px 15px 0 15px; }
   .button-container button {
     min-width: 146px; }
 
+.np-button-container {
+  margin: 0 auto 0 auto;
+  width: 100px; }
+
 .unshuffled-list, .shuffled-list {
-  min-height: 438px;
-  max-height: 438px;
-  margin-left: 10px;
-  margin-right: 10px; }
+  position: relative;
+  height: 80%; }
 
-.unshuffled-list {
-  display: flex; }
-  .unshuffled-list ul {
-    width: 23em;
-    margin: 10px auto 0 auto; }
-    .unshuffled-list ul li {
-      background-color: rgba(255, 255, 255, 0.5);
-      max-height: 42px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis; }
+.unshuffled-list ul {
+  width: 20em;
+  margin: 10px auto 0 auto; }
+  .unshuffled-list ul li {
+    background-color: rgba(255, 255, 255, 0.5);
+    max-height: 42px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
 
-.next-song, .prev-song {
+.song {
+  font-size: 13px; }
+  .song:hover {
+    cursor: pointer;
+    text-decoration: none; }
+
+.next-song img, .prev-song img {
   width: 20px; }
 
 .img-artist {
@@ -205,5 +212,13 @@ body {
 .main-text {
   color: #eeeeee;
   font-weight: bold; }
+
+.artists-name {
+  pointer-events: none; }
+
+.next-song-in-a-row {
+  cursor: pointer; }
+  .next-song-in-a-row:hover {
+    text-decoration: none; }
 
 /*# sourceMappingURL=awesome_styles.css.map */
