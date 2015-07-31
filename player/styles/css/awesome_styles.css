@@ -40,13 +40,19 @@ body {
     -o-filter: blur(1px) brightness(45%);
     filter: blur(1px) brightness(45%); }
 
+button:focus {
+  outline: 0 !important; }
+button:active {
+  border: none;
+  outline: none; }
+
 #where-magic-happens {
   position: absolute;
   top: 10%; }
 
 .welcome-container {
   position: absolute;
-  top: 250px;
+  top: 32%;
   left: 15%;
   right: 15%;
   text-align: center; }
