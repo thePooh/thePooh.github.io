@@ -17,15 +17,19 @@
       <div class="unshuffled-list" ng-if="!songService.shuffle">
         <ul class="list-group">
           <li class="list-group-item" ng-repeat="song in songService.songsPage()">
-            <p class="song" ng-if="songService.currentSong.aid == song.aid" ng-attr-title="{{song.artist}} - {{song.title}}"><b>{{song.artist}}</b> - {{song.title}}</p>
-            <a class="song" ng-if="songService.currentSong.aid != song.aid" ng-click="playSong(song.aid)" ng-attr-title="{{song.artist}} - {{song.title}}"><b>{{song.artist}}</b> - {{song.title}}</a>
+            <p class="song" ng-if="songService.currentSong.aid == song.aid" ng-attr-title="{{song.artist}} - {{song.title}}">
+              <b>{{song.artist}}</b> - {{song.title}}
+            </p>
+            <a class="song" ng-if="songService.currentSong.aid != song.aid" ng-click="playSong(song.aid)" ng-attr-title="{{song.artist}} - {{song.title}}">
+              <b>{{song.artist}}</b> - {{song.title}}
+            </a>
           </li>
         </ul>
         <div class="np-button-container">
-          <button class="prev-song btn btn-link btn-sm" ng-click="songService.prevPage()" ng-if="songService.hasPrevPage()">
+          <button class="prev-song btn btn-link btn-sm" ng-click="songService.prevPage()" ng-class="{disabled: !songService.hasPrevPage()}">
             <img class="prev-song" src="images/prev.png" alt="<"/>
           </button>
-          <button class="next-song btn btn-link btn-sm" ng-click="songService.nextPage()" ng-if="songService.hasNextPage()">
+          <button class="next-song btn btn-link btn-sm" ng-click="songService.nextPage()" ng-class="{disabled: !songService.hasNextPage()}">
             <img src="images/next.png" alt=">"/>
           </button>
         </div>
