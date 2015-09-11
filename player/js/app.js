@@ -193,7 +193,11 @@ VMP.controller('HeaderController', ['$scope', 'SongService', function($scope, So
 
 $(document).ready(function(){
   VK.init({ apiId: "4797696" });
-  setTimeout(function(){
+  var img = new Image();
+  img_src =  window.getComputedStyle(document.querySelector('body'), ':before').getPropertyValue('background');
+  img_src = img_src.split(/url/)[1].split('no-repeat')[0].trim().replace(/\(|\)/g, '');
+  $(img).load(function() {
     $('body').addClass('loaded');
-  }, 2200);
+  });
+  img.src = img_src;
 })
