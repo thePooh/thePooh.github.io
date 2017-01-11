@@ -7,11 +7,31 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
   <script src="https://vk.com/js/api/openapi.js?136" type="text/javascript"></script>
-
+  <script src="js/jszip.min.js"></script>
+  <script src="js/jszip-utils.min.js"></script>
   <script type="text/javascript">
+    /**
+     * Fetch the content and return the associated promise.
+     * @param {String} url the url of the content to fetch.
+     * @return {Promise} the promise containing the data.
+     */
+    function urlToPromise(url) {
+        return new Promise(function(resolve, reject) {
+            JSZipUtils.getBinaryContent(url, function (err, data) {
+                if(err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            });
+        });
+    }
+
     $(document).ready(function() {
-      $('login').click(function() {
-        VK.Auth.login();
+      $('#login').click(function() {
+        VK.Auth.login(function() {}, 65540);
+
+        // zip.file(filename, urlToPromise(url), {binary:true});
       });
     });
   </script>
