@@ -52,8 +52,8 @@
     }
 
     function zipFile(zip, folder, photo) {
-      const date = getDate(photo.created);
-      const name = `#{photo.pid}.jpg`;
+      const date = getDate(photo);
+      const name = `#${photo.pid}.jpg`;
       zip.folder(folder).file(name, urlToPromise(getUrl(photo)), {binary: true, date: date});
     }
 
