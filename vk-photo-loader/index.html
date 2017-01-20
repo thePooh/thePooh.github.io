@@ -6,32 +6,105 @@
   <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-  <script src="https://vk.com/js/api/openapi.js?136" type="text/javascript"></script>
+  <script src="https://vk.com/js/api/openapi.js" type="text/javascript"></script>
   <script src="js/jszip.min.js"></script>
   <script src="js/jszip-utils.min.js"></script>
   <script type="text/javascript">
+    function log(text) {
+      var para = document.createElement("p");
+      var node = document.createTextNode(text);
+      para.appendChild(node);
+
+      var element = document.getElementById("log-zone");
+      element.appendChild(para);
+    }
+
     /**
      * Fetch the content and return the associated promise.
      * @param {String} url the url of the content to fetch.
      * @return {Promise} the promise containing the data.
      */
     function urlToPromise(url) {
-        return new Promise(function(resolve, reject) {
-            JSZipUtils.getBinaryContent(url, function (err, data) {
-                if(err) {
-                    reject(err);
-                } else {
-                    resolve(data);
-                }
+      return new Promise(function(resolve, reject) {
+        JSZipUtils.getBinaryContent(url, function (err, data) {
+          if(err) {
+            reject(err);
+          } else {
+            resolve(data);
+          }
+        });
+      });
+    }
+
+    function getUrl(photo) {
+      const qualityOrder = ['src_xxbig', 'src_xbig', 'src_big', 'src_small', 'src'];
+
+      for (quality of qualityOrder) {
+        if (!(photo[quality] == undefined)) {
+          return photo[quality];
+        }
+      }
+    }
+
+    function getDate(photo) {
+      return Date.new(photo.created * 1000);
+    }
+
+    function zipFile(zip, folder, photo) {
+      const date = getDate(photo.created);
+      const name = `#{photo.pid}.jpg`;
+      zip.folder(folder).file(name, urlToPromise(getUrl(photo)), {binary: true, date: date});
+    }
+
+    const PHOTOS_COUNT = 200;
+    function getPhotos(request, folder, offset, zip, userId, callback) {
+      log(`Скачиваем фото ${request} с номера ${offset} до ${offset+PHOTOS_COUNT}`);
+      VK.Api.call(request, {user_id: userId, count: PHOTOS_COUNT, offset: offset}, function(r) {
+        const photos = r.response;
+        const totalCount = photos.shift();
+        log(`Всего фото: ${totalCount}`);
+        for (photo of photos) {
+          zipFile(zip, folder, photo);
+        }
+        if (offset + PHOTOS_COUNT < totalCount) {
+          getPhotosChunk(userId, offset + PHOTOS_COUNT, zip, callback);
+        } else {
+          callback();
+        }
+      });
+    }
+
+    function createZip() {
+      const session = VK.Auth.getSession();
+      const userId = session.mid;
+
+      log(`Найден пользователь #${userId}`);
+
+      var zip = new JSZip();
+
+      getPhotos('photos.getUserPhotos', 'marks', 0, zip, userId, function() {
+        getPhotos('photos.getAll', 'photos', 0, zip, userId, function() {
+          log('Файл готов');
+          zip.generateAsync({type:"blob"})
+            .then(function (blob) {
+                saveAs(blob, "vkPhotos.zip");
             });
         });
+      });
     }
 
     $(document).ready(function() {
       $('#login').click(function() {
-        VK.Auth.login(function() {}, 65540);
+        VK.Auth.login(function() {
+          $('.start').hide();
+          $('.end').show();
+        }, 65540);
+      });
 
-        // zip.file(filename, urlToPromise(url), {binary:true});
+      $('#download').click(function() {
+        const log = document.getElementById('log-zone');
+        log.innerHTML = '';
+        createZip();
       });
     });
   </script>
@@ -43,13 +116,17 @@
     </div>
   </nav>
 
+  <div class="container">
   <div id="content">
-    <button class="btn btn-primary btn-lg" id="login">Log in</button>
-    <div class="controls" style="display:none;">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="">Нажмите кнопку, чтобы скачать фотки</a>
-      </div>
+    <div class="start">
+      <button class="btn btn-primary btn-lg" id="login">Log in</button>
     </div>
+
+    <div class="end" style="display:none;">
+      <a class="btn btn-primary" href="" id="download">Нажмите кнопку, чтобы скачать фотки</a>
+      <div id="log-zone"></div>
+    </div>
+  </div>
   </div>
 </body>
 
