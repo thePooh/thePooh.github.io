@@ -41,13 +41,13 @@
 
       for (quality of qualityOrder) {
         if (!(photo[quality] == undefined)) {
-          return photo[quality];
+          return photo[quality].replace('https', 'http');
         }
       }
     }
 
     function getDate(photo) {
-      return Date.new(photo.created * 1000);
+      return new Date(photo.created * 1000);
     }
 
     function zipFile(zip, folder, photo) {
