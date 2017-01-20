@@ -67,7 +67,7 @@
           zipFile(zip, folder, photo);
         }
         if (offset + PHOTOS_COUNT < totalCount) {
-          getPhotosChunk(userId, offset + PHOTOS_COUNT, zip, callback);
+          getPhotos(request, folder, offset + PHOTOS_COUNT, zip, userId, callback);
         } else {
           callback();
         }
