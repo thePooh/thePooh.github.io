@@ -11,6 +11,26 @@
   <script src="js/jszip-utils.min.js"></script>
   <script src="js/FileSaver.min.js"></script>
   <script type="text/javascript">
+    var totalPhotos = {
+      marks: 0,
+      photos: 0
+    }
+    var processedPhotos = {
+      marks: 0,
+      photos: 0,
+      fails: 0
+    }
+
+    function renderBars() {
+      var total = totalPhotos.marks + totalPhotos.photos;
+      $('#progress-marks').width(((processedPhotos.marks/totalPhotos.marks) * (totalPhotos.marks/total) * 100) + '%');
+      $('#progress-marks').html(processedPhotos.marks + '/' + totalPhotos.marks);
+      $('#progress-photos').width(((processedPhotos.photos/totalPhotos.photos) * (totalPhotos.photos/total) * 100) + '%');
+      $('#progress-photos').html(processedPhotos.photos + '/' + totalPhotos.photos);
+      $('#progress-errors').width(((processedPhotos.fails/total) * 100) + '%');
+      $('#progress-errors').html(processedPhotos.fails);
+    }
+
     function log(text) {
       var para = document.createElement("p");
       var node = document.createTextNode(text);
@@ -18,23 +38,6 @@
 
       var element = document.getElementById("log-zone");
       element.appendChild(para);
-    }
-
-    /**
-     * Fetch the content and return the associated promise.
-     * @param {String} url the url of the content to fetch.
-     * @return {Promise} the promise containing the data.
-     */
-    function urlToPromise(url) {
-      return new Promise(function(resolve, reject) {
-        JSZipUtils.getBinaryContent(url, function (err, data) {
-          if(err) {
-            reject(err);
-          } else {
-            resolve(data);
-          }
-        });
-      });
     }
 
     function getUrl(photo) {
@@ -54,7 +57,15 @@
     function zipFile(zip, folder, photo) {
       const date = getDate(photo);
       const name = `#${photo.pid}.jpg`;
-      zip.folder(folder).file(name, urlToPromise(getUrl(photo)), {binary: true, date: date});
+      JSZipUtils.getBinaryContent(getUrl(photo), function(err, data) {
+        if (err) {
+          log("Ошибка: "+err);
+          processedPhotos.fails++;
+        } else {
+          zip.folder(folder).file(name, data, {binary: true, date: date});
+          processedPhotos[folder]++;
+        }
+      });
     }
 
     const PHOTOS_COUNT = 200;
@@ -63,9 +74,11 @@
       VK.Api.call(request, {user_id: userId, count: PHOTOS_COUNT, offset: offset}, function(r) {
         const photos = r.response;
         const totalCount = photos.shift();
+        totalPhotos[folder] = totalCount;
         log(`Всего фото: ${totalCount}`);
         for (photo of photos) {
           zipFile(zip, folder, photo);
+          setInterval(renderBars, 1);
         }
         if (offset + PHOTOS_COUNT < totalCount) {
           getPhotos(request, folder, offset + PHOTOS_COUNT, zip, userId, callback);
@@ -90,6 +103,7 @@
             .then(function (blob) {
                 saveAs(blob, "vkPhotos.zip");
             });
+          $('.progress-bar').removeClass('active');
         });
       });
     }
@@ -103,6 +117,16 @@
       });
 
       $('#download').click(function() {
+        totalPhotos = {
+          marks: 0,
+          photos: 0
+        }
+        processedPhotos = {
+          marks: 0,
+          photos: 0,
+          fails: 0
+        }
+        $('.progress-bar').addClass('active');
         const log = document.getElementById('log-zone');
         log.innerHTML = '';
         createZip();
@@ -120,12 +144,45 @@
   <div class="container">
   <div id="content">
     <div class="start">
-      <button class="btn btn-primary btn-lg" id="login">Log in</button>
+      <p>Привет! Это приложение предназначено для скачивания ваших фотографий из социальной сети вконтакте.</p>
+      <p>Для того, чтобы им воспользоваться, нужно выполнить несколько действий:</p>
+      <ol>
+        <li>
+          Установите плагин для вашего браузера, который выключает CORS (это опасная штука, поэтому после использования приложения её стоит удалить). Например, <a href="https://chrome.google.com/webstore/detail/cors-toggle/omcncfnpmcabckcddookmnajignpffnh">вот этот</a>. <br />
+          <img src="images/cors-install.png" width="600px" class="img-thumbnail"/>
+        </li>
+        <li>
+          Убедитесь, что плагин выключен, вот так: <br />
+          <img src="images/cors-off.png" width="150px" class="img-thumbnail">
+        </li>
+        <li>Нажмите кнопку ниже и разрешите приложению доступ к вашим фото.</li>
+      </ol>
+      <button class="btn btn-primary btn-lg" id="login">Войти ВК</button>
     </div>
 
     <div class="end" style="display:none;">
-      <a class="btn btn-primary" href="#" id="download">Нажмите кнопку, чтобы скачать фотки</a>
-      <div id="log-zone"></div>
+      <p>Круто! Вы вошли. Теперь убедитесь, что плагин включён, вот так:</p>
+      <img src="images/cors-on.png" width="150px" class="img-thumbnail"><br />
+      <a class="btn btn-primary" href="#" id="download">И нажмите эту кнопку, чтобы начать процесс</a>
+      <br />
+      <div class="row">
+        <div id="log-zone" class="col-md-8"></div>
+        <div class="col-md-4">
+          <div class="progress">
+            <div class="progress-bar progress-bar-success progress-bar-striped" id="progress-marks" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="">
+              0
+            </div>
+            <div class="progress-bar progress-bar-warning progress-bar-striped" id="progress-photos" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="">
+              0
+            </div>
+            <div class="progress-bar progress-bar-danger progress-bar-striped" id="progress-errors" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="">
+            </div>
+          </div>
+          <p class="bg-success">Фотографии, на которых вы отмечены.</p>
+          <p class="bg-warning">Фотографии из ваших альбомов.</p>
+          <p class="bg-danger">Фотографии, которые не удалось скачать (если всё красное — перепроверьте ещё раз, что плагин включён).</p>
+        </div>
+      </div>
     </div>
   </div>
   </div>
